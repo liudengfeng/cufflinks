@@ -64,3 +64,7 @@ target/
 vv/*
 
 Untitled.ipynb
+.vs/ProjectSettings.json
+.vs/VSWorkspaceState.json
+.vs/cufflinks/v16/.suo
+.vs/slnx.sqlite
