@@ -1728,4 +1728,3 @@ pd.Series.to_iplot=_to_iplot
 pd.Series.iplot=_iplot
 Figure.iplot=_fig_iplot
 
-
