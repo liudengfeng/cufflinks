@@ -234,7 +234,6 @@ def getLayout(kind=None,theme=None,title='',xTitle='',yTitle='',zTitle='',barmod
 	if fontfamily:
 		deep_update(layout,{'font':{'family':fontfamily}})
 
-
 	if barmode:
 		layout.update({'barmode':barmode})
 	if bargroupgap:
@@ -534,22 +533,22 @@ def get_annotations(df,annotations,kind='lines',theme=None,**kwargs):
 					maxv=df.ix[k].sum() if k in df.index else 0
 					yref='y1'
 				ann=dict(
-								x=k,
-								y=maxv,
-								xref='x',
-								yref=yref,
-								text=v,
-								showarrow=kwargs.get('showarrow',True),
-								arrowhead=kwargs.get('arrowhead',7),
-								arrowcolor = kwargs['arrowcolor'],
-								ax=kwargs.get('ax',0),
-								ay=kwargs.get('ay',-100),
-								textangle=kwargs.get('textangle',-90),
-								font = dict(
-									color = kwargs['fontcolor'],
-									size=kwargs['fontsize']
-								)
-								)
+					x=k,
+					y=maxv,
+					xref='x',
+					yref=yref,
+					text=v,
+					showarrow=kwargs.get('showarrow',True),
+					arrowhead=kwargs.get('arrowhead',7),
+					arrowcolor = kwargs['arrowcolor'],
+					ax=kwargs.get('ax',0),
+					ay=kwargs.get('ay',-100),
+					textangle=kwargs.get('textangle',-90),
+					font = dict(
+						color = kwargs['fontcolor'],
+						size=kwargs['fontsize']
+					)
+				)
 				local_list.append(ann)
 
 
@@ -641,9 +640,9 @@ def merge_figures(figures):
 	return figure
 
 def subplots(figures,shape=None,
-				  shared_xaxes=False, shared_yaxes=False,
-				  start_cell='top-left', theme=None,base_layout=None,
-				  **kwargs):
+	shared_xaxes=False, shared_yaxes=False,
+	start_cell='top-left', theme=None,base_layout=None,
+	**kwargs):
 	"""
 	Generates a subplot view for a set of figures
 	This is a wrapper for plotly.tools.make_subplots
@@ -795,9 +794,9 @@ def subplots(figures,shape=None,
 
 
 def get_subplots(rows=1,cols=1,
-				  shared_xaxes=False, shared_yaxes=False,
-				  start_cell='top-left', theme=None,base_layout=None,
-				  **kwargs):
+	shared_xaxes=False, shared_yaxes=False,
+	start_cell='top-left', theme=None,base_layout=None,
+	**kwargs):
 
 	"""
 	Generates a subplot view for a set of figures
@@ -1250,8 +1249,9 @@ def _set_axis(self,traces,on=None,side='right',title=''):
 # 		else:
 # 			raise Exception("Shapes need to be either a dict or list of dicts")
 
-def get_shape(kind='line',x=None,y=None,x0=None,y0=None,x1=None,y1=None,span=0,color='red',dash='solid',width=1,
-				fillcolor=None,fill=False,opacity=1,xref='x',yref='y'):
+def get_shape(kind='line',x=None,y=None,x0=None,y0=None,x1=None,y1=None,span=0,
+	color='red',dash='solid',width=1,
+	fillcolor=None,fill=False,opacity=1,xref='x',yref='y'):
 	"""
 	Returns a plotly shape
 
@@ -1374,8 +1374,8 @@ def get_trendline(df,date0,date1,column='close',**kwargs):
 
 ### Range Selector
 
-def get_range_selector(steps=['1m','1y'],bgcolor='rgba(150, 200, 250, 0.4)',x=0,y=0.9,
-						visible=True,**kwargs):
+def get_range_selector(steps=['1m','1y'],bgcolor='rgba(150, 200, 250, 0.4)',
+	x=0,y=0.9,visible=True,**kwargs):
 	"""
 	Returns a range selector
 	Reference: https://plot.ly/python/reference/#layout-xaxis-rangeselector

@@ -34,9 +34,12 @@ def dict_to_iplot(d):
 	return l
 
 
-def _to_iplot(self,colors=None,colorscale=None,kind='scatter',mode='lines',interpolation='linear',symbol='dot',size='12',fill=False,
-		width=3,dash='solid',sortbars=False,keys=False,bestfit=False,bestfit_colors=None,opacity=0.6,
-		mean=False,mean_colors=None,asDates=False,asTimestamp=False,text=None,**kwargs):
+def _to_iplot(self,colors=None,colorscale=None,kind='scatter',mode='lines',interpolation='linear',
+	symbol='dot',size='12',fill=False,
+	width=3,dash='solid',sortbars=False,keys=False,
+	bestfit=False,bestfit_colors=None,opacity=0.6,
+	mean=False,mean_colors=None,
+	asDates=False,asTimestamp=False,text=None,**kwargs):
 	"""
 	Generates a plotly Data object 
 
@@ -197,13 +200,15 @@ def _to_iplot(self,colors=None,colorscale=None,kind='scatter',mode='lines',inter
 		return data
 	return lines_plotly
 
-def _iplot(self,kind='scatter',data=None,layout=None,filename='',sharing=None,title='',xTitle='',yTitle='',zTitle='',theme=None,colors=None,colorscale=None,fill=False,width=None,
-			dash='solid',mode='',interpolation='linear',symbol='circle',size=12,barmode='',sortbars=False,bargap=None,bargroupgap=None,bins=None,histnorm='',
-			histfunc='count',orientation='v',boxpoints=False,annotations=None,keys=False,bestfit=False,
-			bestfit_colors=None,mean=False,mean_colors=None,categories='',x='',y='',z='',text='',gridcolor=None,
-			zerolinecolor=None,margin=None,labels=None,values=None,secondary_y='',secondary_y_title='',subplots=False,shape=None,error_x=None,
-			error_y=None,error_type='data',locations=None,lon=None,lat=None,asFrame=False,asDates=False,asFigure=False,
-			asImage=False,dimensions=None,asPlot=False,asUrl=False,online=None,**kwargs):
+def _iplot(self,kind='scatter',data=None,layout=None,filename='',sharing=None,
+	title='',xTitle='',yTitle='',zTitle='',theme=None,colors=None,colorscale=None,fill=False,width=None,
+	dash='solid',mode='',interpolation='linear',symbol='circle',size=12,barmode='',sortbars=False,
+	bargap=None,bargroupgap=None,bins=None,histnorm='',
+	histfunc='count',orientation='v',boxpoints=False,annotations=None,keys=False,bestfit=False,
+	bestfit_colors=None,mean=False,mean_colors=None,categories='',x='',y='',z='',text='',gridcolor=None,
+	zerolinecolor=None,margin=None,labels=None,values=None,secondary_y='',secondary_y_title='',subplots=False,shape=None,error_x=None,
+	error_y=None,error_type='data',locations=None,lon=None,lat=None,asFrame=False,asDates=False,asFigure=False,
+	asImage=False,dimensions=None,asPlot=False,asUrl=False,online=None,**kwargs):
 	"""
 	Returns a plotly chart either as inline chart, image of Figure object
 
@@ -391,8 +396,8 @@ def _iplot(self,kind='scatter',data=None,layout=None,filename='',sharing=None,ti
 				h 
 				v
 			Sets the orientation of the bars. If set to 'v', the length of each
- |          bar will run vertically. If set to 'h', the length of each bar will
- |          run horizontally
+            bar will run vertically. If set to 'h', the length of each bar will
+            run horizontally
 			* Only valid when kind is 'histogram','bar' or 'box'
 		boxpoints : string
 			Displays data points in a box plot
