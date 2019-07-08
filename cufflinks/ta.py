@@ -18,20 +18,20 @@ def _ohlc_dict(df_or_figure, open='', high='', low='', close='', volume='',
 
     df_or_figure :  DataFrame or Figure
     open : string
-            Column name to be used for OPEN values
+        Column name to be used for OPEN values
     high : string
-            Column name to be used for HIGH values
+        Column name to be used for HIGH values
     low : string
-            Column name to be used for LOW values
+        Column name to be used for LOW values
     close : string
-            Column name to be used for CLOSE values
+        Column name to be used for CLOSE values
     volume : string
-            Column name to be used for VOLUME values
+        Column name to be used for VOLUME values
     validate : string
-            Validates that the stated column exists
-            Example:
-                    validate='ohv' | Will ensure Open, High
-                                                     and close values exist. 
+        Validates that the stated column exists
+
+    Example:
+            validate='ohv' | Will ensure Open, High and volume values exist. 
     """
     c_dir = {}
     ohlcv = ['open', 'high', 'low', 'close', 'volume']

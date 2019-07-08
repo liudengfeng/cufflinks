@@ -39,16 +39,16 @@ def scatter3d(n_categories=5, n=10, prefix='category', mode=None):
 
     Parameters:
     -----------
-            n_categories : int
-                    Number of categories 
-            n : int
-                    Number of points for each trace
-            prefix : string
-                    Name for each trace
-            mode : string
-                    Format for each item
-                            'abc' for alphabet columns
-                            'stocks' for random stock names
+        n_categories : int
+                Number of categories 
+        n : int
+                Number of points for each trace
+        prefix : string
+                Name for each trace
+        mode : string
+                Format for each item
+                        'abc' for alphabet columns
+                        'stocks' for random stock names
     """
     categories = []
     for i in range(n_categories):
@@ -67,16 +67,16 @@ def bubble3d(n_categories=5, n=10, prefix='category', mode=None):
 
     Parameters:
     -----------
-            n_categories : int
-                    Number of categories 
-            n : int
-                    Number of points for each trace
-            prefix : string
-                    Name for each trace
-            mode : string
-                    Format for each item
-                            'abc' for alphabet columns
-                            'stocks' for random stock names
+        n_categories : int
+                Number of categories 
+        n : int
+                Number of points for each trace
+        prefix : string
+                Name for each trace
+        mode : string
+                Format for each item
+                        'abc' for alphabet columns
+                        'stocks' for random stock names
     """
     categories = []
     for i in range(n_categories):
@@ -96,16 +96,16 @@ def bubble(n_categories=5, n=10, prefix='category', mode=None):
 
     Parameters:
     -----------
-            n_categories : int
-                    Number of categories 
-            n : int
-                    Number of points for each category
-            prefix : string
-                    Name for each category
-            mode : string
-                    Format for each item
-                            'abc' for alphabet columns
-                            'stocks' for random stock names
+        n_categories : int
+                Number of categories 
+        n : int
+                Number of points for each category
+        prefix : string
+                Name for each category
+        mode : string
+                Format for each item
+                        'abc' for alphabet columns
+                        'stocks' for random stock names
     """
     categories = []
     for i in range(n_categories):
@@ -124,12 +124,12 @@ def pie(n_labels=5, mode=None):
 
     Parameters:
     -----------
-            n_labels : int
-                    Number of labels 
-            mode : string
-                    Format for each item
-                            'abc' for alphabet columns
-                            'stocks' for random stock names
+        n_labels : int
+                Number of labels 
+        mode : string
+                Format for each item
+                        'abc' for alphabet columns
+                        'stocks' for random stock names
     """
     return pd.DataFrame({'values': np.random.randint(1, 100, n_labels),
                          'labels': getName(n_labels, mode=mode)})
@@ -142,16 +142,16 @@ def scatter(n_categories=5, n=10, prefix='category', mode=None):
 
     Parameters:
     -----------
-            n_categories : int
-                    Number of categories 
-            n : int
-                    Number of points for each category
-            prefix : string
-                    Name for each category
-            mode : string
-                    Format for each item
-                            'abc' for alphabet columns
-                            'stocks' for random stock names
+        n_categories : int
+                Number of categories 
+        n : int
+                Number of points for each category
+        prefix : string
+                Name for each category
+        mode : string
+                Format for each item
+                        'abc' for alphabet columns
+                        'stocks' for random stock names
     """
     categories = []
     for i in range(n_categories):
@@ -169,10 +169,10 @@ def heatmap(n_x=5, n_y=10):
 
     Parameters:
     -----------
-            n_x : int
-                    Number of x categories
-            n_y : int
-                    Number of y categories
+        n_x : int
+                Number of x categories
+        n_y : int
+                Number of y categories
     """
     x = ['x_'+str(_) for _ in range(n_x)]
     y = ['y_'+str(_) for _ in range(n_y)]
@@ -186,19 +186,19 @@ def lines(n_traces=5, n=100, columns=None, dateIndex=True, mode=None):
 
     Parameters:
     -----------
-            n_traces : int
-                    Number of traces 
-            n : int
-                    Number of points for each trace
-            columns : [str]
-                    List of column names
-            dateIndex : bool
-                    If True it will return a datetime index
-                    if False it will return a enumerated index
-            mode : string
-                    Format for each item
-                            'abc' for alphabet columns
-                            'stocks' for random stock names
+        n_traces : int
+                Number of traces 
+        n : int
+                Number of points for each trace
+        columns : [str]
+                List of column names
+        dateIndex : bool
+                If True it will return a datetime index
+                if False it will return a enumerated index
+        mode : string
+                Format for each item
+                        'abc' for alphabet columns
+                        'stocks' for random stock names
     """
     index = pd.date_range('1/1/15', periods=n) if dateIndex else list(range(n))
     df = pd.DataFrame(np.random.randn(n, n_traces), index=index,
@@ -213,18 +213,18 @@ def bars(n=3, n_categories=3, prefix='category', columns=None, mode='abc'):
 
     Parameters:
     -----------
-            n : int
-                    Number of points for each trace
-            n_categories : int
-                    Number of categories for each point
-            prefix : string
-                    Name for each category
-            columns : [str]
-                    List of column names
-            mode : string
-                    Format for each item
-                            'abc' for alphabet columns
-                            'stocks' for random stock names
+        n : int
+                Number of points for each trace
+        n_categories : int
+                Number of categories for each point
+        prefix : string
+                Name for each category
+        columns : [str]
+                List of column names
+        mode : string
+                Format for each item
+                        'abc' for alphabet columns
+                        'stocks' for random stock names
     """
     categories = []
     if not columns:
@@ -244,8 +244,8 @@ def ohlc(n=100):
 
     Parameters:
     -----------
-            n : int
-                    Number of ohlc points
+        n : int
+                Number of ohlc points
 
     """
     index = pd.date_range('1/1/15', periods=n*288, freq='5min', tz='utc')
@@ -268,8 +268,8 @@ def ohlcv(n=100):
 
     Parameters:
     -----------
-            n : int
-                    Number of ohlc points
+        n : int
+                Number of ohlc points
 
     """
     df = ohlc()
@@ -284,14 +284,14 @@ def box(n_traces=5, n=100, mode=None):
 
     Parameters:
     -----------
-            n_traces : int
-                    Number of traces 
-            n : int
-                    Number of points for each trace
-            mode : string
-                    Format for each item
-                            'abc' for alphabet columns
-                            'stocks' for random stock names
+        n_traces : int
+                Number of traces 
+        n : int
+                Number of points for each trace
+        mode : string
+                Format for each item
+                        'abc' for alphabet columns
+                        'stocks' for random stock names
     """
     df = pd.DataFrame([np.random.chisquare(np.random.randint(2, 10), n_traces) for _ in range(n)],
                       columns=getName(n_traces, mode=mode))
@@ -305,14 +305,14 @@ def histogram(n_traces=1, n=500, dispersion=2, mode=None):
 
     Parameters:
     -----------
-            n_traces : int
-                    Number of traces 
-            n : int
-                    Number of points for each trace
-            mode : string
-                    Format for each item
-                            'abc' for alphabet columns
-                            'stocks' for random stock names
+        n_traces : int
+                Number of traces 
+        n : int
+                Number of points for each trace
+        mode : string
+                Format for each item
+                        'abc' for alphabet columns
+                        'stocks' for random stock names
     """
     df = pd.DataFrame(np.transpose([np.random.randn(n)+np.random.randint(-1*dispersion, dispersion) for _ in range(n_traces)]),
                       columns=getName(n_traces, mode=mode))
@@ -326,14 +326,14 @@ def distplot(n_traces=1, n=500, dispersion=3, mode=None):
 
     Parameters:
     -----------
-            n_traces : int
-                    Number of traces 
-            n : int
-                    Number of points for each trace
-            mode : string
-                    Format for each item
-                            'abc' for alphabet columns
-                            'stocks' for random stock names
+        n_traces : int
+                Number of traces 
+        n : int
+                Number of points for each trace
+        mode : string
+                Format for each item
+                        'abc' for alphabet columns
+                        'stocks' for random stock names
     """
     return histogram(n_traces, n, dispersion, mode)
 
@@ -345,12 +345,12 @@ def violin(n=500, dispersion=3, categories=True, n_categories=5):
 
     Parameters:
     -----------
-            n : int
-                    Number of points 
-            categories : bool or int
-                    If True, then a column with categories is added
-            n_categories : int
-                    Number of categories
+        n : int
+                Number of points 
+        categories : bool or int
+                If True, then a column with categories is added
+        n_categories : int
+                Number of categories
     """
     df = histogram(1, n, dispersion, 'abc')
     df = df.rename(columns={'a': 'data'})
@@ -367,10 +367,10 @@ def surface(n_x=20, n_y=20):
 
     Parameters:
     -----------
-            n_x : int
-                    Number of points along the X axis
-            n_y : int
-                    Number of points along the Y axis
+        n_x : int
+                Number of points along the X axis
+        n_y : int
+                Number of points along the Y axis
     """
     x = [float(np.random.randint(0, 100))]
     for i in range(n_x):
@@ -389,10 +389,10 @@ def sinwave(n=4, inc=.25):
 
     Parameters:
     -----------
-            n : int
-                    Ranges for X and Y axis (-n,n)
-            n_y : int
-                    Size of increment along the axis
+        n : int
+                Ranges for X and Y axis (-n,n)
+        n_y : int
+                Size of increment along the axis
     """
     x = np.arange(-n, n, inc)
     y = np.arange(-n, n, inc)

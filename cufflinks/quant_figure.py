@@ -27,20 +27,27 @@ from . import colors
 from . import auth
 from . import date_tools
 
-__QUANT_FIGURE_DATA = ['kind','showlegend','datalegend','name','slice','resample','bestfit',
-						'text','title','yTitle','secondary_y_title','bestfit_colors','kind',
-						'colorscale','xTitle','colors','secondary_y']
-__QUANT_FIGURE_LAYOUT = ['annotations','showlegend','margin','rangeselector','rangeslider','shapes',
-						 'width','height','dimensions']
+__QUANT_FIGURE_DATA = [
+	'kind','showlegend','datalegend','name','slice','resample','bestfit',
+	'text','title','yTitle','secondary_y_title','bestfit_colors','kind',
+	'colorscale','xTitle','colors','secondary_y'
+]
+__QUANT_FIGURE_LAYOUT = [
+	'annotations','showlegend','margin','rangeselector','rangeslider','shapes',
+	'width','height','dimensions'
+]
 __QUANT_FIGURE_THEME = ['theme','up_color','down_color']
 __QUANT_FIGURE_PANELS = ['min_panel_size','spacing','top_margin','bottom_margin']
 
 
 def get_layout_kwargs():
 	return tools.__LAYOUT_KWARGS
+
 def get_annotation_kwargs():
 	return tools.__ANN_KWARGS
-def get_shapes_kwargs(): return tools.__SHAPES_KWARGS
+
+def get_shapes_kwargs(): 
+	return tools.__SHAPES_KWARGS
 
 class QuantFig(object):
 	
