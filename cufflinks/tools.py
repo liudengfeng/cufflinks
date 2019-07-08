@@ -118,26 +118,23 @@ def getLayout(kind=None,theme=None,title='',xTitle='',yTitle='',zTitle='',barmod
 				stack
 				overlay
 		bargap : float
-			Sets the gap between bars
-				[0,1)
+			Sets the gap between bars [0,1)
 			Applicabe for bar and histogram plots
 		bargroupgap : float
-			Set the gap between groups
-				[0,1)
+			Set the gap between groups [0,1)
 			Applicabe for bar and histogram plots
 		gridcolor : string
-				grid color
+			grid color
 		zerolinecolor : string
-				zero line color
+			zero line color
 		margin : dict or tuple
-				Dictionary (l,r,b,t) or
-				Tuple containing the left,
-				right, bottom and top margins
+			Dictionary (l,r,b,t) or
+			Tuple containing the left,
+			right, bottom and top margins
 		dimensions : tuple
 			Dimensions of figure
 		annotations : dict or list
-			Dictionary of annotations
-				{x_point : text}
+			Dictionary of annotations {x_point : text}
 			or
 			List of Plotly Annotations
 		is3d : bool
@@ -470,10 +467,6 @@ def get_annotations(df,annotations,kind='lines',theme=None,**kwargs):
 			List of Plotly annotations
 	"""
 
-
-
-
-
 	for key in list(kwargs.keys()):
 		if key not in __ANN_KWARGS:
 			raise Exception("Invalid keyword : '{0}'".format(key))
@@ -489,38 +482,38 @@ def get_annotations(df,annotations,kind='lines',theme=None,**kwargs):
 
 		if 'title' in annotation:
 			local_list.append(
-					dict(
-							text=annotation['title'],
-							showarrow=False,
-							x=0,
-							y=1,
-							xref='paper',
-							yref='paper',
-							font={'size':24 if not 'fontsize' in kwargs else kwargs['fontsize']}
-						)
+				dict(
+					text=annotation['title'],
+					showarrow=False,
+					x=0,
+					y=1,
+					xref='paper',
+					yref='paper',
+					font={'size':24 if not 'fontsize' in kwargs else kwargs['fontsize']}
 				)
+			)
 
 			del annotation['title']	
 			local_list.append(ann)
 
 		elif 'x' in annotation:
 			ann=dict(
-								x=annotation['x'],
-								y=annotation.get('y',.5),
-								xref=annotation.get('xref','x'),
-								yref=annotation.get('yref',kwargs.get('yref','y1')),
-								text=annotation.get('text'),
-								showarrow=annotation.get('showarrow',True),
-								arrowhead=annotation.get('arrowhead',7),
-								arrowcolor=annotation.get('arrowcolor',kwargs.get('arrowcolor')),
-								ax=annotation.get('ax',0),
-								ay=annotation.get('ay',-100),
-								textangle=annotation.get('textangle',-90),
-								font = dict(
-									color = annotation.get('fontcolor',annotation.get('color',kwargs.get('fontcolor'))),
-									size = annotation.get('fontsize',annotation.get('size',kwargs.get('fontsize')))
-								)
-								)
+				x=annotation['x'],
+				y=annotation.get('y',.5),
+				xref=annotation.get('xref','x'),
+				yref=annotation.get('yref',kwargs.get('yref','y1')),
+				text=annotation.get('text'),
+				showarrow=annotation.get('showarrow',True),
+				arrowhead=annotation.get('arrowhead',7),
+				arrowcolor=annotation.get('arrowcolor',kwargs.get('arrowcolor')),
+				ax=annotation.get('ax',0),
+				ay=annotation.get('ay',-100),
+				textangle=annotation.get('textangle',-90),
+				font = dict(
+					color = annotation.get('fontcolor',annotation.get('color',kwargs.get('fontcolor'))),
+					size = annotation.get('fontsize',annotation.get('size',kwargs.get('fontsize')))
+				)
+			)
 			local_list.append(ann)
 
 		else:
@@ -816,8 +809,8 @@ def get_subplots(rows=1,cols=1,
 			If True, subplots in the same grid row have one common
 			shared y-axis on the left-hand side of the gird.
 		start_cell : string
-				'bottom-left'
-				'top-left'
+			'bottom-left'
+			'top-left'
 			Choose the starting cell in the subplot grid used to set the
 			domains of the subplots.
 		theme : string
@@ -929,8 +922,6 @@ def get_subplots(rows=1,cols=1,
 	# 		update_items(v,layout,'xaxis1')
 	# 	elif isinstance(v,go.YAxis):
 	# 		update_items(v,layout,'xaxis1')
-
-
 
 
 	return sp, grid_ref

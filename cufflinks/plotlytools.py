@@ -915,6 +915,7 @@ def _iplot(self, kind='scatter', data=None, layout=None, filename='', sharing=No
                 trace = Scatter(x=x, y=y, marker=marker,
                                 mode='markers', text=labels)
                 data = [trace]
+
             elif kind in ('box', 'histogram', 'hist'):
                 if isinstance(self, pd.core.series.Series):
                     df = pd.DataFrame({self.name: self})
@@ -1148,6 +1149,7 @@ def _iplot(self, kind='scatter', data=None, layout=None, filename='', sharing=No
                                          colors=colors, **kw)
                 data = fig.data
                 layout = tools.merge_dict(layout, fig.layout)
+            
             elif kind in ('violin',):
                 df = pd.DataFrame(self) if type(
                     self) == pd.core.series.Series else self.copy()

@@ -100,8 +100,8 @@ class QuantFig(object):
 		
 		# self.theme initial values
 		self.theme['theme']=kwargs.pop('theme',auth.get_config_file()['theme'])
-		self.theme['up_color']=kwargs.pop('up_color','java')  # java
-		self.theme['down_color']=kwargs.pop('down_color','grey')
+		self.theme['up_color']=kwargs.pop('up_color','red')  # red
+		self.theme['down_color']=kwargs.pop('down_color','green')
 		
 		# self.panels initial values
 		self.panels['min_panel_size']=kwargs.pop('min_panel_size',.15)
@@ -257,7 +257,7 @@ class QuantFig(object):
 		d['yaxis2']['domain']=(top[0],top_margin)
 		return d
 	
-	def _get_trendline(self,date0=None,date1=None,on=None,kind='trend',to_strfmt='%Y-%m-%d',from_strfmt='%d%b%y',**kwargs):
+	def _get_trendline(self,date0=None,date1=None,on=None,kind='trend',to_strfmt=r'%Y-%m-%d',from_strfmt=r'%d%b%y',**kwargs):
 		"""
 		Returns a trendline (line), support or resistance
 
@@ -1145,8 +1145,9 @@ class QuantFig(object):
 		return fig
 	
 	def iplot(self,**kwargs):
-		__QUANT_FIGURE_EXPORT = ['asFigure','asUrl','asImage','asPlot','display_image','validate',
-						 'sharing','online','filename','dimensions']
+		__QUANT_FIGURE_EXPORT = [
+			'asFigure','asUrl','asImage','asPlot','display_image','validate',
+			'sharing','online','filename','dimensions']
 
 		layout=copy.deepcopy(self.layout)
 		data=copy.deepcopy(self.data)
