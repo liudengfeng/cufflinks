@@ -1028,8 +1028,11 @@ class QuantFig(object):
 		local_kwargs={}
 		_slice=kwargs.pop('slice',self.data.get('slice',(None,None)))
 		_resample=kwargs.pop('resample',self.data.get('resample',None))
-		
+		# # 修复index
 		df=self._get_sliced(_slice).copy()
+		# # 保留
+		idx = df.index.copy()
+		df.index = range(len(df))
 		if _resample:
 			if utils.is_list(_resample):
 				df=self._get_resampled(*_resample,df=df)
@@ -1067,6 +1070,7 @@ class QuantFig(object):
 						bar_colors.append(down_color)
 				else:
 					bar_colors.append(down_color)
+
 			fig=df[params['column']].figure(kind='bar',theme=params['theme'],**kwargs)
 			fig['data'][0].update(marker=dict(color=bar_colors,line=dict(color=bar_colors)),
 					  opacity=0.8)
@@ -1142,6 +1146,9 @@ class QuantFig(object):
 					trace.update(line=dict(color=color,width=1))
 					fig['data'].append(trace)
 
+		# # 修复提示信息
+		if kind in ('rsi','volume','macd','atr','adx','cci','dmi'):
+			fig['data'][0].update(dict(hovertext=idx))
 
 		return fig
 	
@@ -1213,7 +1220,6 @@ class QuantFig(object):
 			pass
 		else:
 			if not datalegend:
-
 				fig['data'][0]['decreasing'].update(showlegend=False)
 				fig['data'][0]['increasing'].update(showlegend=False)
 
