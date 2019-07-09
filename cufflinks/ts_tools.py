@@ -3,7 +3,7 @@
 
 假设前提：
     1. 数据框`index`为时间`DatetimeIndex`;
-    2. 不处理`rangeslider`;
+    2. `rangeslider`;
 """
 
 import pandas as pd
@@ -30,6 +30,12 @@ def _fixed_layout(self, percentile=[5, 25, 50, 75, 95], ts_fmt=r'%Y-%m-%d'):
             tickmode='array',
             tickvals=tickvals,
             ticktext=ticktext,
+            rangeslider=dict(
+                visible=False,
+            ),
+            rangeselector=dict(
+                visible=False,
+            ),
         )
     )
 

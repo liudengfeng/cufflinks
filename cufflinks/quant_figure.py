@@ -34,7 +34,8 @@ __QUANT_FIGURE_DATA = [
 ]
 __QUANT_FIGURE_LAYOUT = [
 	'annotations','showlegend','margin','rangeselector','rangeslider','shapes',
-	'width','height','dimensions'
+	'width','height','dimensions',
+	'percentile', 'ts_fmt' # # 控制`tickvals`和`ticktext`
 ]
 __QUANT_FIGURE_THEME = ['theme','up_color','down_color']
 __QUANT_FIGURE_PANELS = ['min_panel_size','spacing','top_margin','bottom_margin']
@@ -92,7 +93,7 @@ class QuantFig(object):
 			if not isinstance(v,list):
 				self.layout['shapes'][k]=[v]
 		self.layout['rangeselector']=kwargs.pop('rangeselector',{'visible':False})
-		self.layout['rangeslider']=kwargs.pop('rangeslider',False) 
+		self.layout['rangeslider']=kwargs.pop('rangeslider',{'visible':False}) 
 		self.layout['margin']=kwargs.pop('margin',dict(t=30,b=30,r=30,l=30))
 		self.layout['annotations']=annotations
 		self.layout['showlegend']=kwargs.pop('showlegend',True)
@@ -1256,7 +1257,9 @@ class QuantFig(object):
 
 		domains=self._panel_domains(**panel_data)
 		fig['layout'].update(**domains)
-		if not d.get('rangeslider',False):
+		# # 修改为符合参数规范
+		rangeslider_visible = d.get('rangeslider',{'visible':False})
+		if not rangeslider_visible['visible']:
 			try:
 				del fig['layout']['yaxis1']
 			except:
