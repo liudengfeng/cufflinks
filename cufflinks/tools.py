@@ -1321,18 +1321,19 @@ def get_shape(kind='line',x=None,y=None,x0=None,y0=None,x1=None,y1=None,span=0,
 		else:
 			y1=y0
 
-	shape = {	'x0':x0,
-				'y0':y0,
-				'x1':x1,
-				'y1':y1,
-				'line' : {
-					'color':normalize(color),
-					'width':width,
-					'dash':dash
-					},
-				'xref':xref,
-				'yref':yref
-				}
+	shape = {
+		'x0': x0,
+		'y0': y0,
+		'x1': x1,
+		'y1': y1,
+		'line': {
+			'color': normalize(color),
+			'width': width,
+			'dash': dash
+		},
+		'xref': xref,
+		'yref': yref
+	}
 
 	if kind=='line':
 		shape['type']='line'
@@ -1395,8 +1396,6 @@ def get_range_selector(steps=['1m','1y'],bgcolor='rgba(150, 200, 250, 0.4)',
 	import string
 
 	def get_step(s):
-
-
 		term=[]
 		stepmode='backward'
 		_s=s

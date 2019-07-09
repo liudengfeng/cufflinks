@@ -49,7 +49,7 @@ def get_annotation_kwargs():
 
 def get_shapes_kwargs(): 
 	return tools.__SHAPES_KWARGS
-
+#TODO:完成切片（保留有效指标数据，绘制指定区域）
 class QuantFig(object):
 	
 	def __init__(self,df,kind='candlestick',columns=None,**kwargs):
@@ -306,30 +306,40 @@ class QuantFig(object):
 
 		date0=kwargs.pop('date',date0)    
 		date0=date_tools.stringToString(date0,from_strfmt,to_strfmt) if '-' not in date0 else date0
+		# # 修改为序号
+		date0 = self.df.index.get_loc(date0)
 		
 		if kind=='trend':
-			date1=date_tools.stringToString(date1,from_strfmt,to_strfmt) if '-' not in date1 else date1
+			date1 = date_tools.stringToString(date1,from_strfmt,to_strfmt) if '-' not in date1 else date1
+			date1 = self.df.index.get_loc(date1)
 			on='close' if not on else on
-			df=pd.DataFrame(self.df[self._d[on]])
-			y0=kwargs.get('y0',df.ix[date0].values[0])
-			y1=kwargs.get('y1',df.ix[date1].values[0])
-			
+			# df=pd.DataFrame(self.df[self._d[on]])
+			# y0=kwargs.get('y0',df.ix[date0].values[0])
+			# y1=kwargs.get('y1',df.ix[date1].values[0])
+			y0=kwargs.get('y0',self.df[self._d[on]][date0]) # # 修改
+			y1=kwargs.get('y1',self.df[self._d[on]][date1]) # # 修改
 		
 		if kind in ('support','resistance'):
 			mode=kwargs.pop('mode','starttoend')
 			if not on:
 				on='low' if kind=='support' else 'high'
-			df=pd.DataFrame(self.df[self._d[on]])
-			y0=kwargs.get('y0',df.ix[date0].values[0])
+			# df=pd.DataFrame(self.df[self._d[on]])
+			# y0=kwargs.get('y0',df.ix[date0].values[0])
+			y0=kwargs.get('y0',self.df[self._d[on]][date0]) # # 修改
 			y1=kwargs.get('y1',y0)
+
 			if mode=='starttoend':
-				date0=df.index[0]
-				date1=df.index[-1]
+				# date0=df.index[0]
+				# date1=df.index[-1]
+				date0=0  # # 修改
+				date1=-1 # # 修改
 			elif mode=='toend':
-				date1=df.index[-1]
+				# date1=df.index[-1]
+				date1=-1 # # 修改
 			elif mode=='fromstart':
 				date1=date0
-				date0=df.index[0]
+				# date0=df.index[0]
+				date0=0  # # 修改
 
 		if isinstance(date0,pd.Timestamp):
 			date0=date_tools.dateToString(date0,to_strfmt)
@@ -337,14 +347,16 @@ class QuantFig(object):
 			date1=date_tools.dateToString(date1,to_strfmt)
 		d={'x0':date0,'x1':date1,'y0':y0,'y1':y1}
 		d.update(**kwargs)
-		shape=tools.get_shape(**d)        
+		shape=tools.get_shape(**d)       
 
-		
-		if ann_kwargs.get('text',False):
-			ann_kwargs['x']=ann_kwargs.get('x',date_tools.dateToString(position(date_tools.stringToDate(date0,to_strfmt),date_tools.stringToDate(date1,to_strfmt)),to_strfmt))
-			ann_kwargs['y']=ann_kwargs.get('y',position(shape['y0'],shape['y1']))
-		else:
-			ann_kwargs={}
+		#TODO：待完成
+		# if ann_kwargs.get('text',False):
+		# 	default_x = date_tools.dateToString(position(date_tools.stringToDate(date0,to_strfmt),date_tools.stringToDate(date1,to_strfmt)),to_strfmt)
+		# 	ann_kwargs['x']=ann_kwargs.get('x',default_x)
+		# 	ann_kwargs['y']=ann_kwargs.get('y',position(shape['y0'],shape['y1']))
+		# else:
+		# 	ann_kwargs={}
+		ann_kwargs={} # # 设定为空
 		return {'shape':shape,'annotation':ann_kwargs}
 
 	def add_trendline(self,date0,date1,on='close',text=None,**kwargs):
@@ -538,15 +550,6 @@ class QuantFig(object):
 			else:
 				self.layout['shapes'][k]=utils.make_list(v)
 
-	# def add_study(self,name,params={}):
-	# 	if 'kind' in params:
-	# 			if params['kind'] in self._valid_studies:
-	# 				self.studies[name]=params
-	# 			else:
-	# 				raise Exception('Invalid study: {0}'.format(params['kind']))
-	# 	else:
-	# 		raise Exception('Study kind required')
-
 	def _add_study(self,study):
 		"""
 		Adds a study to QuantFigure.studies
@@ -678,7 +681,6 @@ class QuantFig(object):
 		study['params']['periods']='[{0},{1},{2}]'.format(fast_period,slow_period,signal_period)
 		self._add_study(study)
 
-	
 	def add_sma(self,periods=20,column=None,name='',
 					str=None,**kwargs):
 		"""
@@ -1015,7 +1017,6 @@ class QuantFig(object):
 						 'str':str},
 			  'display':utils.merge_dict({'legendgroup':False},kwargs)}
 		self._add_study(study)		
-
 
 	def _get_study_figure(self,study_id,**kwargs):
 		study=copy.deepcopy(self.studies[study_id])
