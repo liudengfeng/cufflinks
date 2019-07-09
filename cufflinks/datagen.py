@@ -236,7 +236,7 @@ def bars(n=3, n_categories=3, prefix='category', columns=None, mode='abc'):
     return pd.DataFrame(data, index=categories)
 
 
-def ohlc(n=100):
+def ohlc(n=100, freq='5min', resample_freq='B'):
     """
     Returns a DataFrame with the required format for 
     a candlestick or ohlc plot
@@ -245,16 +245,16 @@ def ohlc(n=100):
     Parameters:
     -----------
         n : int
-                Number of ohlc points
+			Number of ohlc points
 
     """
-    index = pd.date_range('1/1/15', periods=n*288, freq='5min', tz='utc')
+    index = pd.date_range('1/1/15', periods=n*288, freq=freq, tz='utc')
     data = np.random.randn(n*288)
     data[0] = np.array([100])
     df = pd.DataFrame(data, index=index,
                       columns=['a'])
     df = df.cumsum()
-    df = df.resample('1d').ohlc()
+    df = df.resample(resample_freq).ohlc()
     df.index = df.index.date
     df.index = pd.to_datetime(df.index)
     return df['a']
