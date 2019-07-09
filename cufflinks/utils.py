@@ -1,7 +1,7 @@
 import pickle
 import six
 import copy
-
+import functools
 
 def is_string(val):
     return isinstance(val, six.string_types)
@@ -52,12 +52,14 @@ def dict_path(from_d, to_d={}, l=[]):
                     Dictionary to which the results will be appended
 
     Example: 
-            dict_path({'level1':{'level2':{'level3':'value'}}})
-            Returns
-                    {'level1': [],
-                     'level2': ['level1'],
-                     'level3': ['level1', 'level2']
-                    }
+    --------
+    
+    dict_path({'level1':{'level2':{'level3':'value'}}})
+    Returns
+            {'level1': [],
+                'level2': ['level1'],
+                'level3': ['level1', 'level2']
+            }
     """
     for k, v in list(from_d.items()):
         if isinstance(v, dict):
@@ -76,7 +78,7 @@ def dict_update(d, k, val, d_ref=None):
     d_ref = d if not d_ref else d
     path = dict_path(d_ref)
     if path:
-        reduce(dict.get, path[k], d).update({k: val})
+        functools.reduce(dict.get, path[k], d).update({k: val})
     else:
         d.update(k=val)
     return d

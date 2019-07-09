@@ -14,7 +14,7 @@ from . import tools
 from . import offline
 from . import auth
 from . import ta
-
+from . import ts_tools # # 处理日期
 
 __TA_KWARGS = ['min_period', 'center', 'freq', 'how', 'rsi_upper', 'rsi_lower', 'boll_std', 'fast_period',
                'slow_period', 'signal_period', 'initial', 'af', 'open', 'high', 'low', 'close']
@@ -1081,7 +1081,9 @@ def _iplot(self, kind='scatter', data=None, layout=None, filename='', sharing=No
                           low=self[d['low']].values.tolist(),
                           close=self[d['close']].values.tolist())
                 if isinstance(self.index, pd.core.indexes.datetimes.DatetimeIndex):
-                    _d['x'] = self.index.astype('str')
+                    # _d['x'] = self.index.astype('str')
+                    _d['hovertext'] = self.index # # 添加日期悬停信息
+                    pass
                 else:
                     _d['x'] = self.index
                 if 'name' in kw:
@@ -1108,6 +1110,7 @@ def _iplot(self, kind='scatter', data=None, layout=None, filename='', sharing=No
                 _d['showlegend'] = showlegend
                 _d['yaxis'] = 'y2'
                 data = [_d]
+                layout = ts_tools._fixed_layout(self) # # 使用默认值调整x刻度及日期格式
 
             elif kind in ('choropleth', 'scattergeo'):
                 kw = check_kwargs(kwargs, GEO_KWARGS)
@@ -1657,6 +1660,8 @@ def _ta_plot(self, study, periods=14, column=None, include=True, str='{name}({pe
             iplot_study_kwargs['legend'] = iplot_kwargs['legend']
         fig_0 = df.figure(**iplot_kwargs)
         df_ta = func(df, column=column, include=False, str=str, **study_kwargs)
+        # # 技术指标index更改为序号
+        df_ta.index = range(len(df_ta))
         kind = iplot_kwargs['kind'] if 'kind' in iplot_kwargs else ''
         iplot_study_kwargs['kind'] = 'scatter'
         iplot_study_kwargs['colors'] = iplot_study_kwargs.get(
@@ -1664,7 +1669,8 @@ def _ta_plot(self, study, periods=14, column=None, include=True, str='{name}({pe
         fig_1 = df_ta.figure(theme=theme, **iplot_study_kwargs)
         if kind in ['candle', 'ohlc']:
             for i in fig_1['data']:
-                i['x'] = [pd.Timestamp(_) for _ in i['x']]
+                # i['x'] = [pd.Timestamp(_) for _ in i['x']]
+                i['x'] = [_ for _ in i['x']] # # 修改为原值
         if inset:
             figure = tools.merge_figures([fig_0, fig_1]) if include else fig_1
         else:

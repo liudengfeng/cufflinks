@@ -29,7 +29,7 @@ from . import date_tools
 
 __QUANT_FIGURE_DATA = [
 	'kind','showlegend','datalegend','name','slice','resample','bestfit',
-	'text','title','yTitle','secondary_y_title','bestfit_colors','kind',
+	'text','title','yTitle','secondary_y_title','bestfit_colors',
 	'colorscale','xTitle','colors','secondary_y'
 ]
 __QUANT_FIGURE_LAYOUT = [
