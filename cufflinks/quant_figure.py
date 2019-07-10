@@ -49,7 +49,7 @@ def get_annotation_kwargs():
 
 def get_shapes_kwargs(): 
 	return tools.__SHAPES_KWARGS
-#TODO:完成切片（保留有效指标数据，绘制指定区域）
+
 class QuantFig(object):
 	
 	def __init__(self,df,kind='candlestick',columns=None,**kwargs):
@@ -111,7 +111,6 @@ class QuantFig(object):
 		self.panels['bottom_margin']=kwargs.pop('top_margin',0)
 		self.update(**kwargs)
 
-
 	def _get_schema(self):
 		"""
 		Returns a dictionary with the schema for a QuantFigure
@@ -154,7 +153,7 @@ class QuantFig(object):
 		a,b=slice
 		a=None if a in ('',None) else utils.make_string(a)
 		b=None if b in ('',None) else utils.make_string(b)
-		return df.ix[a:b]
+		return df.loc[a:b, :]
 
 	def _get_resampled(self,rule,how={'ohlc':'last','volume':'sum'},df=None,**kwargs):
 		"""
@@ -234,7 +233,6 @@ class QuantFig(object):
 				except:
 					raise Exception('Key: {0} not found'.format(a))
 
-	
 	def figure(self,**kwargs):
 		"""
 		
@@ -1018,6 +1016,18 @@ class QuantFig(object):
 			  'display':utils.merge_dict({'legendgroup':False},kwargs)}
 		self._add_study(study)		
 
+	def _get_loc_from(self, slice):
+		"""自切片获取原始数据框的开始及结束位置"""
+		if slice[0] is None:
+			start_loc = 0
+		else:
+			start_loc = self.df.index.get_loc(slice[0], 'bfill') # 最接近结束日期的大值
+		if slice[1] is None:
+			end_loc = len(self.df) - 1 # 位置自0开始
+		else:
+			end_loc = self.df.index.get_loc(slice[1], 'ffill')   # 最接近结束日期的小值
+		return (start_loc, end_loc)
+
 	def _get_study_figure(self,study_id,**kwargs):
 		study=copy.deepcopy(self.studies[study_id])
 		kind=study['kind']
@@ -1027,13 +1037,19 @@ class QuantFig(object):
 		name=study['name']
 		params.update(include=False)
 		local_kwargs={}
-		_slice=kwargs.pop('slice',self.data.get('slice',(None,None)))
+		# # 位置切片
+		start_loc, end_loc = kwargs.get('slice')
+		# # 为study传入位置切片
+		params.update(slice=(start_loc, end_loc))
 		_resample=kwargs.pop('resample',self.data.get('resample',None))
+
 		# # 修复index
-		df=self._get_sliced(_slice).copy()
+		# df=self._get_sliced(_slice).copy()
+		df = self.df.copy()
 		# # 保留
 		idx = df.index.copy()
 		df.index = range(len(df))
+
 		if _resample:
 			if utils.is_list(_resample):
 				df=self._get_resampled(*_resample,df=df)
@@ -1053,26 +1069,29 @@ class QuantFig(object):
 			return local_kwargs,params
  
 		if kind=='volume':
-			bar_colors=[]
-			local_kwargs,params=get_params([],params,display,False)
+			bar_colors = []
+			local_kwargs, params = get_params([], params, display, False)
 			#Fix for 152
-			base_column=params['base'] if params['colorchange'] else 'volume'
-			base=df[self._d[base_column]]
-			up_color=colors.normalize(display['up_color']) if 'rgba' not in display['up_color'] else display['up_color']
-			down_color=colors.normalize(display['down_color']) if 'rgba' not in display['down_color'] else display['down_color']
-			study_kwargs=utils.kwargs_from_keyword(kwargs,{},'study')
+			base_column = params['base'] if params['colorchange'] else 'volume'
+			base = df[self._d[base_column]]
+			up_color = colors.normalize(
+				display['up_color']) if 'rgba' not in display['up_color'] else display['up_color']
+			down_color = colors.normalize(
+				display['down_color']) if 'rgba' not in display['down_color'] else display['down_color']
+			_ = utils.kwargs_from_keyword(kwargs, {}, 'study')
 			
-
-			for i in range(len(base)):
-				if i != 0:
+			# # 修改柱图颜色
+			for i in range(start_loc, end_loc+1):
+				if i != start_loc:
 					if base[i] > base[i-1]:
 						bar_colors.append(up_color)
 					else:
 						bar_colors.append(down_color)
 				else:
 					bar_colors.append(down_color)
-
-			fig=df[params['column']].figure(kind='bar',theme=params['theme'],**kwargs)
+			# # 切片后的数据
+			part_df = df[params['column']][start_loc:end_loc+1]
+			fig=part_df.figure(kind='bar',theme=params['theme'],**kwargs)
 			fig['data'][0].update(marker=dict(color=bar_colors,line=dict(color=bar_colors)),
 					  opacity=0.8)
 
@@ -1149,11 +1168,11 @@ class QuantFig(object):
 
 		# # 修复提示信息
 		if kind in ('rsi','volume','macd','atr','adx','cci','dmi'):
-			fig['data'][0].update(dict(hovertext=idx))
+			fig['data'][0].update(dict(hovertext=idx[start_loc:end_loc+1]))
 
 		return fig
 	
-	def iplot(self,**kwargs):
+	def iplot(self,start_date=None, end_date=None, **kwargs):
 		__QUANT_FIGURE_EXPORT = [
 			'asFigure','asUrl','asImage','asPlot','display_image','validate',
 			'sharing','online','filename','dimensions']
@@ -1161,8 +1180,10 @@ class QuantFig(object):
 		layout=copy.deepcopy(self.layout)
 		data=copy.deepcopy(self.data)
 		self_kwargs=copy.deepcopy(self.kwargs)
+		# # 位置切片
+		start_loc, end_loc = self._get_loc_from((start_date, end_date))
+		data['slice']= (start_loc, end_loc)
 
-		data['slice']=kwargs.pop('slice',data.pop('slice',(None,None)))
 		data['resample']=kwargs.pop('resample',data.pop('resample',None))
 
 		asFigure=kwargs.pop('asFigure',False)
@@ -1171,7 +1192,7 @@ class QuantFig(object):
 		datalegend=kwargs.pop('datalegend',data.pop('datalegend',data.pop('showlegend',True)))
 		export_kwargs = utils.check_kwargs(kwargs,__QUANT_FIGURE_EXPORT)
 
-		_slice=data.pop('slice')
+		# _slice = data.pop('slice')
 		_resample=data.pop('resample')
 		
 		panel_data={}
@@ -1179,7 +1200,9 @@ class QuantFig(object):
 			panel_data[k]=kwargs.pop(k,self.panels[k])
 
 		d=self_kwargs
-		df=self._get_sliced(_slice).copy()
+		# # 输入全部数据
+		# df=self._get_sliced(_slice).copy()
+		df = self.df.copy()
 		if _resample:
 			if utils.is_list(_resample):
 				df=self._get_resampled(*_resample,df=df)
@@ -1214,11 +1237,11 @@ class QuantFig(object):
 				d=utils.merge_dict(d,_)
 		d=utils.deep_update(d,kwargs)
 		d=tools.updateColors(d)
+		# # 将slice位置切片传入参数d中
 		fig = df.figure(**d)
 
 		if d['kind'] not in ('candle','candlestick','ohlc'):
 			tools._move_axis(fig, yaxis='y2')  # FIXME TKP
-			pass
 		else:
 			if not datalegend:
 				fig['data'][0]['decreasing'].update(showlegend=False)
@@ -1239,7 +1262,8 @@ class QuantFig(object):
 		if showstudies:
 			kwargs=utils.check_kwargs(kwargs,['theme','up_color','down_color'],{},False)
 			kwargs.update(**study_kwargs)
-			kwargs.update(slice=_slice,resample=_resample)
+			# # 传入位置切片参数slice至study
+			kwargs.update(slice=(start_loc, end_loc),resample=_resample)
 			for k,v in list(self.studies.items()):
 				study_fig=self._get_study_figure(k,**kwargs)
 				study_fig=tools.fig_to_dict(study_fig)

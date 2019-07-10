@@ -10,10 +10,11 @@ import numpy as np
 import plotly.graph_objs as go
 
 
-def get_xtick(x, percentile, ts_fmt):
+def get_xtick(x, locs, percentile, ts_fmt):
     tickvals = []
     ticktext = []
-    idx = np.percentile(range(len(x)), percentile).astype(int)
+    idx = np.percentile(
+        list(range(locs[0], locs[1]+1)), percentile).astype(int)
     # 取唯一值
     idx = pd.Series(idx).drop_duplicates().values
     for i in idx:
@@ -22,8 +23,8 @@ def get_xtick(x, percentile, ts_fmt):
     return tickvals, ticktext
 
 
-def _fixed_layout(self, percentile=[5, 25, 50, 75, 95], ts_fmt=r'%Y-%m-%d'):
-    tickvals, ticktext = get_xtick(self.index.values, percentile, ts_fmt)
+def _fixed_layout(self, locs, percentile=[5, 25, 50, 75, 95], ts_fmt=r'%Y-%m-%d'):
+    tickvals, ticktext = get_xtick(self.index.values, locs, percentile, ts_fmt)
     return dict(
         xaxis=dict(
             tickmode='array',
@@ -53,7 +54,7 @@ def get_figure(self, kind):
         text=self.index,  # 将日期添加到悬停文本
     )
 
-    layout = _fixed_layout(self)
+    layout = _fixed_layout(self, (0, len(self)))
     data = [trace]
 
     return go.Figure(data=data, layout=layout)

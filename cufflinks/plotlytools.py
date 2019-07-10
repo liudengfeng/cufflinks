@@ -690,6 +690,9 @@ def _iplot(self, kind='scatter', data=None, layout=None, filename='', sharing=No
 
     for k in dict_modifiers_keys:
         dict_modifiers[k] = kwargs_from_keyword(kwargs, {}, k, True)
+    
+    # # 验证前取出位置参数
+    start_loc, end_loc = kwargs.pop('slice', (0, len(self)-1))
 
     for key in list(kwargs.keys()):
         if key not in valid_kwargs:
@@ -1076,16 +1079,16 @@ def _iplot(self, kind='scatter', data=None, layout=None, filename='', sharing=No
                 kw = check_kwargs(kwargs, OHLC_KWARGS)
                 d = ta._ohlc_dict(self, validate='ohlc', **kw)
                 _d = dict(type=kind,
-                          open=self[d['open']].values.tolist(),
-                          high=self[d['high']].values.tolist(),
-                          low=self[d['low']].values.tolist(),
-                          close=self[d['close']].values.tolist())
+                          open=self[d['open']].values[start_loc:end_loc+1],
+                          high=self[d['high']].values[start_loc:end_loc+1],
+                          low=self[d['low']].values[start_loc:end_loc+1],
+                          close=self[d['close']].values[start_loc:end_loc+1])
                 if isinstance(self.index, pd.core.indexes.datetimes.DatetimeIndex):
                     # _d['x'] = self.index.astype('str')
-                    _d['hovertext'] = self.index # # 添加日期悬停信息
-                    pass
+                    _d['x'] = list(range(start_loc, end_loc+1))
+                    _d['hovertext'] = self.index[start_loc:end_loc+1] # # 添加日期悬停信息
                 else:
-                    _d['x'] = self.index
+                    _d['x'] = self.index[start_loc:end_loc+1]
                 if 'name' in kw:
                     _d['name'] = kw['name']
 
@@ -1110,7 +1113,7 @@ def _iplot(self, kind='scatter', data=None, layout=None, filename='', sharing=No
                 _d['showlegend'] = showlegend
                 _d['yaxis'] = 'y2'
                 data = [_d]
-                layout = ts_tools._fixed_layout(self) # # 使用默认值调整x刻度及日期格式
+                layout = ts_tools._fixed_layout(self, (start_loc, end_loc)) # # 使用默认值调整x刻度及日期格式
 
             elif kind in ('choropleth', 'scattergeo'):
                 kw = check_kwargs(kwargs, GEO_KWARGS)
@@ -1271,6 +1274,7 @@ def _iplot(self, kind='scatter', data=None, layout=None, filename='', sharing=No
                      online=online, asImage=asImage, asUrl=asUrl, asPlot=asPlot,
                      dimensions=dimensions, display_image=kwargs.get('display_image', True))
 	#endregion
+
 
 def get_colors(colors, colorscale, keys, asList=False):
     if type(colors) != dict:
@@ -1618,6 +1622,9 @@ def _ta_plot(self, study, periods=14, column=None, include=True, str='{name}({pe
     if 'study_color' in iplot_kwargs:
         iplot_kwargs['study_colors'] = iplot_kwargs.pop('study_color')
 
+    # # 增加切片位置参数
+    start_loc, end_loc = iplot_kwargs.pop('slice')
+
     if sharing is None:
         sharing = auth.get_config_file()['sharing']
     if isinstance(sharing, bool):
@@ -1660,8 +1667,10 @@ def _ta_plot(self, study, periods=14, column=None, include=True, str='{name}({pe
             iplot_study_kwargs['legend'] = iplot_kwargs['legend']
         fig_0 = df.figure(**iplot_kwargs)
         df_ta = func(df, column=column, include=False, str=str, **study_kwargs)
+        # # 取出截取部分
+        df_ta = df_ta.iloc[start_loc:end_loc+1,:]
         # # 技术指标index更改为序号
-        df_ta.index = range(len(df_ta))
+        df_ta.index = range(start_loc, end_loc+1)
         kind = iplot_kwargs['kind'] if 'kind' in iplot_kwargs else ''
         iplot_study_kwargs['kind'] = 'scatter'
         iplot_study_kwargs['colors'] = iplot_study_kwargs.get(
