@@ -1240,9 +1240,10 @@ def _set_axis(self,traces,on=None,side='right',title=''):
 # 		else:
 # 			raise Exception("Shapes need to be either a dict or list of dicts")
 
-def get_shape(kind='line',x=None,y=None,x0=None,y0=None,x1=None,y1=None,span=0,
-	color='red',dash='solid',width=1,
-	fillcolor=None,fill=False,opacity=1,xref='x',yref='y'):
+
+def get_shape(kind='line', x=None, y=None, x0=None, y0=None, x1=None, y1=None, span=0,
+              color='red', dash='solid', width=1,
+              fillcolor=None, fill=False, opacity=1, xref='x', yref='y'):
 	"""
 	Returns a plotly shape
 
@@ -1301,25 +1302,24 @@ def get_shape(kind='line',x=None,y=None,x0=None,y0=None,x1=None,y1=None,span=0,
 	if x1 is None:
 		if x0 is None:
 			if x is None:
-				xref='paper'
-				x0=0
-				x1=1
+				xref = 'paper'
+				x0 = 0
+				x1 = 1
 			else:
-				x0=x1=x
+				x0 = x1 = x
 		else:
-			x1=x0
-	else:
-		x
+			x1 = x0
+
 	if y1 is None:
 		if y0 is None:
 			if y is None:
-				yref='paper'
-				y0=0
-				y1=1
+				yref = 'paper'
+				y0 = 0
+				y1 = 1
 			else:
-				y0=y1=y
+				y0 = y1 = y
 		else:
-			y1=y0
+			y1 = y0
 
 	shape = {
 		'x0': x0,
@@ -1335,21 +1335,21 @@ def get_shape(kind='line',x=None,y=None,x0=None,y0=None,x1=None,y1=None,span=0,
 		'yref': yref
 	}
 
-	if kind=='line':
-		shape['type']='line'
+	if kind == 'line':
+		shape['type'] = 'line'
 
-	elif kind=='circle':
-		shape['type']='circle'
+	elif kind == 'circle':
+		shape['type'] = 'circle'
 
-	elif kind=='rect':
-		shape['type']='rect'
+	elif kind == 'rect':
+		shape['type'] = 'rect'
 	else:
 		raise Exception("Invalid or unkown shape type : {0}".format(kind))
 
-	if (fill or fillcolor) and kind!='line':
+	if (fill or fillcolor) and kind != 'line':
 		fillcolor = color if not fillcolor else fillcolor
-		fillcolor=to_rgba(normalize(fillcolor),opacity)
-		shape['fillcolor']=fillcolor
+		fillcolor = to_rgba(normalize(fillcolor), opacity)
+		shape['fillcolor'] = fillcolor
 
 	return shape
 
