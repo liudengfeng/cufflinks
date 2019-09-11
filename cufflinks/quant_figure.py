@@ -68,6 +68,8 @@ class QuantFig(object):
 
 		self.display_start_date = None
 		self.display_end_date = None
+		# 是否显示刻度，默认显示
+		self.showticklabels = kwargs.pop('showticklabels', True)
 
 		# Set column names
 		if not columns:
@@ -122,6 +124,10 @@ class QuantFig(object):
 		self.panels['top_margin'] = kwargs.pop('top_margin', 0.9)
 		self.panels['bottom_margin'] = kwargs.pop('top_margin', 0)
 		self.update(**kwargs)
+
+	def set_showticklabels(self, showticklabels):
+		assert isinstance(showticklabels, (bool, ))
+		self.showticklabels = showticklabels
 
 	def _get_schema(self):
 		"""
@@ -245,15 +251,6 @@ class QuantFig(object):
 						del reduce(dict.get, path[a], self.__dict__)[a]
 				except:
 					raise Exception('Key: {0} not found'.format(a))
-
-	def figure(self, **kwargs):
-		"""
-		
-		Returns a Plotly figure
-
-		"""
-		kwargs['asFigure'] = True
-		return self.iplot(**kwargs)
 
 	def _panel_domains(self, n=2, min_panel_size=.15, spacing=0.08, top_margin=1, bottom_margin=0):
 		"""
@@ -1161,7 +1158,16 @@ class QuantFig(object):
 			raise ValueError(f"趋势线开始日期{d0}应晚于显示开始日期{start_date}")
 		if loc1 > end_loc:
 			raise ValueError(f"趋势线结束日期{d1}应早于显示结束日期{end_date}")
+	
+	def figure(self, **kwargs):
+		"""
+		
+		Returns a Plotly figure
 
+		"""
+		kwargs['asFigure'] = True
+		return self.iplot(**kwargs)
+		
 	def iplot(self, start_date=None, end_date=None, **kwargs):
 		__QUANT_FIGURE_EXPORT = [
 			'asFigure', 'asUrl', 'asImage', 'asPlot', 'display_image', 'validate',
@@ -1296,8 +1302,15 @@ class QuantFig(object):
 				del fig['layout']['yaxis1']
 			except:
 				pass
+		
+		fig = go.Figure(fig)
+		# 如不需要显示刻度，关闭
+		if not self.showticklabels:
+			fig.update_xaxes(showticklabels=False)
+			fig.update_yaxes(showticklabels=False)
+
 		if asFigure:
-			return go.Figure(fig)
+			return fig
 		else:
 			return pt_iplot(fig, **export_kwargs)
 
