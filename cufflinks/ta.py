@@ -304,7 +304,7 @@ def ptps(df, periods=14, initial='long', af=.02, high='high', low='low', include
         _df = _df.reset_index()
 
         _df.loc[0, 'LorS'] = initial
-        _df.loc[0, 'T_SAR'] = None
+        _df.loc[0, 'T_SAR'] = np.nan
         _df.loc[0, 'EP'] = df[high][0] if initial == 'long' else df[low][0]
         _df.loc[0, 'AF'] = af
 

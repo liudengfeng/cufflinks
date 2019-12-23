@@ -209,7 +209,7 @@ def _to_iplot(self, colors=None, colorscale=None,
 
 
 def _iplot(self, kind='scatter', data=None, layout=None, filename='', sharing=None,
-           title='', xTitle='', yTitle='', zTitle='', theme=None, colors=None, colorscale=None, fill=False, width=None,
+           title='', xTitle='', yTitle='', zTitle='', theme='pearl', colors=None, colorscale=None, fill=False, width=None,
            dash='solid', mode='', interpolation='linear', symbol='circle', size=12, barmode='', sortbars=False,
            bargap=None, bargroupgap=None, bins=None, histnorm='',
            histfunc='count', orientation='v', boxpoints=False, annotations=None, keys=False, bestfit=False,
@@ -1207,7 +1207,9 @@ def _iplot(self, kind='scatter', data=None, layout=None, filename='', sharing=No
         else:
             sharing = 'private'
     if sharing is None:
-        sharing = auth.get_config_file()['sharing']
+        # 多进程死锁
+        # sharing = auth.get_config_file()['sharing']
+        sharing = 'public'
 
     if not filename:
         if title:

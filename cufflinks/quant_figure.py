@@ -1147,7 +1147,7 @@ class QuantFig(object):
 		return fig
 
 	def _check_date(self, d0, d1):
-		"""检查shape、标注等日期的有效性"""
+		"""检查shape、标注等日期的有效性."""
 		start_date = self.display_start_date
 		end_date = self.display_end_date
 		if d1 is None:
@@ -1160,11 +1160,7 @@ class QuantFig(object):
 			raise ValueError(f"趋势线结束日期{d1}应早于显示结束日期{end_date}")
 	
 	def figure(self, **kwargs):
-		"""
-		
-		Returns a Plotly figure
-
-		"""
+		"""Returns a Plotly figure."""
 		kwargs['asFigure'] = True
 		return self.iplot(**kwargs)
 		

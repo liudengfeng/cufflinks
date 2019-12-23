@@ -187,12 +187,13 @@ def get_config_file(*args):
         get_config_file('sharing')
 
     """
-    if _file_permissions:
-        ensure_local_files()
-        return load_json_dict(CONFIG_FILE, *args)
-    else:
-        return _FILE_CONTENT[CONFIG_FILE]
-
+    # 直接使用字典内容，不去读取文件
+    # if _file_permissions:
+    #     ensure_local_files()
+    #     return load_json_dict(CONFIG_FILE, *args)
+    # else:
+    #     return _FILE_CONTENT[CONFIG_FILE]
+    return _FILE_CONTENT[CONFIG_FILE]
 
 def load_json_dict(filename, *args):
     """Checks if file exists. Returns {} if something fails."""
