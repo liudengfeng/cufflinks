@@ -1,5 +1,6 @@
 import pandas as pd
-import plotly.plotly as py
+# import plotly.plotly as py
+# import chart_studio.plotly as py
 import time
 import copy
 # from plotly.graph_objs import *
@@ -1492,6 +1493,12 @@ def iplot(figure, validate=True, sharing=None, filename='',
     if asUrl:
         asPlot = True
         auto_open = False
+        
+    if not offline.is_offline() or online:
+        try:
+            import chart_studio.plotly as py
+        except ImportError:
+            raise Exception("please run `pip install chart_studio`")
 
     # Exports
     if asImage:
