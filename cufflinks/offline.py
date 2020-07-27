@@ -35,7 +35,8 @@ def go_offline(connected=None):
 
 
 def go_online():
-    py_offline.__PLOTLY_OFFLINE_INITIALIZED = False
+    raise NotImplementedError('不支持在线模式')
+    # py_offline.__PLOTLY_OFFLINE_INITIALIZED = False
 
 
 def is_offline():
