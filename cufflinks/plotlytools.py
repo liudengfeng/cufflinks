@@ -1,18 +1,20 @@
-import pandas as pd
-import time
 import copy
-# from plotly.graph_objs import *
-from plotly.graph_objs import Figure, Layout, Bar, Box, Scatter, FigureWidget, Scatter3d, Histogram, Heatmap, Surface, Pie
-import plotly.figure_factory as ff
+import time
 from collections import defaultdict
-from IPython.display import display, Image
+from pathlib import Path
+
+import pandas as pd
+import plotly.figure_factory as ff
+from IPython.display import Image, display
+# from plotly.graph_objs import *
+from plotly.graph_objs import (Bar, Box, Figure, FigureWidget, Heatmap,
+                               Histogram, Layout, Pie, Scatter, Scatter3d,
+                               Surface)
+
+from . import auth, offline, ta, tools
+from .colors import colorgen, get_colorscale, get_scales, normalize, to_rgba
 from .exceptions import CufflinksError
-from .colors import normalize, get_scales, colorgen, to_rgba, get_colorscale
-from .utils import check_kwargs, deep_update, kwargs_from_keyword, is_list
-from . import tools
-from . import offline
-from . import auth
-from . import ta
+from .utils import check_kwargs, deep_update, is_list, kwargs_from_keyword
 
 __TA_KWARGS = ['min_period', 'center', 'freq', 'how', 'rsi_upper', 'rsi_lower', 'boll_std', 'fast_period',
                'slow_period', 'signal_period', 'initial', 'af', 'open', 'high', 'low', 'close']
@@ -1466,7 +1468,7 @@ def iplot(figure, validate=True, sharing=None, filename='',
                 time.strftime("%Y-%m-%d %H:%M:%S"))
     # Dimensions
     if not dimensions:
-        dimensions = (800, 500) if not auth.get_config_file()[
+        dimensions = (800, 600) if not auth.get_config_file()[
             'dimensions'] else auth.get_config_file()['dimensions']
 
     # Offline Links
@@ -1494,41 +1496,46 @@ def iplot(figure, validate=True, sharing=None, filename='',
         # 			"please run " \
         # 			"pip install chart_studio" )
 
-    if asImage:
-        if offline.is_offline() and not online:
-            return offline.py_offline.iplot(figure, validate=validate, filename=filename, show_link=show_link, link_text=link_text,
-                                            image='png', image_width=dimensions[0], image_height=dimensions[1], config=config)
+    def make_file(f, default_extension):
+        fp = Path(f)
+        name = fp.name
+        has_extension = len(name.split('.')) > 1
+        if has_extension:
+            fmt = name.split('.')[-1]
         else:
-            try:
-                py.image.save_as(figure, filename='img/'+filename, format='png',
-                                 width=dimensions[0], height=dimensions[1], scale=kwargs.get('scale', None))
-                path = 'img/'+filename+'.png'
-            except:
-                py.image.save_as(figure, filename=filename, format='png',
-                                 width=dimensions[0], height=dimensions[1], scale=kwargs.get('scale', None))
-                path = filename+'.png'
-            if display_image:
-                return display(Image(path))
-            else:
-                print('Image saved : {0}'.format(path))
-                return None
+            fmt = default_extension
+        fp = fp.parent / f"{fp.stem}.{fmt}"
+        target = str(fp)
+        return target, fmt
+
+    if asImage:
+        # 参考 https://plotly.com/python/static-image-export/
+        target, fmt = make_file(filename, 'png')
+        fig = Figure(figure)
+        fig.write_image(target,
+                        format=fmt,
+                        validate=validate,
+                        width=dimensions[0],
+                        height=dimensions[1],
+                        scale=kwargs.get('scale', None))
+        print(f'Image saved : {target}')
+
+        if display_image:
+            return display(Image(target))
+        else:
+            return
 
     ## asPlot and asUrl
     if asPlot:
-        filename += '.html'
-        if offline.is_offline() and not online:
-            return offline.py_offline.plot(figure, filename=filename, validate=validate,
-                                           show_link=show_link, link_text=link_text, auto_open=auto_open, config=config)
-        else:
-            return py.plot(figure, sharing=sharing, filename=filename, validate=validate,
-                           auto_open=auto_open)
+        target, fmt = make_file(filename, 'html')
+        fig = Figure(figure)
+        fig.write_html(target, validate=validate,
+                       auto_open=auto_open, config=config)
+        return
 
     # iplot
-    if offline.is_offline() and not online:
-        return offline.py_offline.iplot(figure, validate=validate, filename=filename, show_link=show_link, link_text=link_text, config=config)
-    else:
-        return py.iplot(figure, validate=validate, sharing=sharing,
-                        filename=filename)
+    offline.py_offline.iplot(figure, validate=validate, filename=filename,
+                             show_link=show_link, link_text=link_text, config=config)
 
 
 def _ta_figure(self, **kwargs):

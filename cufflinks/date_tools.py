@@ -12,9 +12,9 @@ def getDateFromToday(delta, strfmt='%Y%m%d'):
     Parameters:
     -----------
         delta : int 
-                number of days
+            number of days
         strfmt : string
-                format in which the date will be represented
+            format in which the date will be represented
     """
     return (dt.date.today() + dt.timedelta(delta)).strftime(strfmt)
 
@@ -24,9 +24,9 @@ def stringToDate(stringDate, strfmt='%Y%m%d'):
     Parameters:
     -----------
         stringDate : string 
-                date in string format
+            date in string format
         strfmt : string
-                format in which the input date is represented
+            format in which the input date is represented
     """
     return dt.datetime.strptime(stringDate, strfmt).date()
 
@@ -36,9 +36,9 @@ def intToDate(intDate):
     Parameters:
     -----------
         intDate : int
-                date in int format
+            date in int format
     Example:
-            intDate(20151023)
+        intDate(20151023)
     """
     return stringToDate(str(intDate))
 
@@ -48,11 +48,11 @@ def dateToInt(date, strfmt='%Y%m%d'):
     Parameters:
     -----------
         date : datetime
-                date in datetime format
+            date in datetime format
         strfmt : string
-                format in which the int date will be generated
+            format in which the int date will be generated
     Example:
-            dateToInt(dt.date(2015,10,23),'%Y')
+        dateToInt(dt.date(2015,10,23),'%Y')
     """
     return int(date.strftime(strfmt))
 
