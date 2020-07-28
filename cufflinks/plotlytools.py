@@ -13,7 +13,6 @@ from . import tools
 from . import offline
 from . import auth
 from . import ta
-from . import ts_tools # # 处理日期
 
 __TA_KWARGS = ['min_period','center','freq','how','rsi_upper','rsi_lower','boll_std','fast_period',
 			   'slow_period','signal_period','initial','af','open','high','low','close']
@@ -1428,12 +1427,13 @@ def iplot(figure,validate=True,sharing=None,filename='',
 
 	## Exports
 	if not offline.is_offline() or online:
-		try:
-			import chart_studio.plotly as py
-		except:
-			raise Exception("chart_studio is required outside of offline mode: " \
-					"please run " \
-					"pip install chart_studio" )
+		raise NotImplementedError('不支持在线模式')
+		# try:
+		# 	# import chart_studio.plotly as py
+		# except:
+		# 	raise Exception("chart_studio is required outside of offline mode: " \
+		# 			"please run " \
+		# 			"pip install chart_studio" )
 
 	if asImage:
 		if offline.is_offline() and not online:

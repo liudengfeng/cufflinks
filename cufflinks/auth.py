@@ -98,44 +98,44 @@ def set_config_file(sharing=None, theme=None, colorscale=None, offline=None, off
     Set the keyword-value pairs in `~/.config`.
 
     sharing : string
-                    Sets the sharing level permission
-                            public - anyone can see this chart
-                            private - only you can see this chart
-                            secret - only people with the link can see the chart
+        Sets the sharing level permission
+            public - anyone can see this chart
+            private - only you can see this chart
+            secret - only people with the link can see the chart
     theme : string
-                    Sets the default theme
-                    See cufflinks.getThemes() for available themes 
+        Sets the default theme
+        See cufflinks.getThemes() for available themes 
     colorscale : string
-                    Sets the default colorscale
-                    See cufflinks.scales()
+        Sets the default colorscale
+        See cufflinks.scales()
     offline : bool
-                    If true then the charts are rendered
-                    locally. 
+        If true then the charts are rendered
+        locally. 
     offline_connected : bool
-                    If True, the plotly.js library will be loaded
-                    from an online CDN. If False, the plotly.js library will be loaded locally
-                    from the plotly python package
+        If True, the plotly.js library will be loaded
+        from an online CDN. If False, the plotly.js library will be loaded locally
+        from the plotly python package
     offline_show_link : bool
-                    If true then the chart will show a link to 
-                    plot.ly at the bottom right of the chart 
+        If true then the chart will show a link to 
+        plot.ly at the bottom right of the chart 
     offline_link_text : string
-                    Text to display as link at the bottom 
-                    right of the chart 
+        Text to display as link at the bottom 
+        right of the chart 
     offline_config : dict
-                    Additional configuration options
-                    For the complete list of config options check out: 
-                    https://github.com/plotly/plotly.js/blob/master/src/plot_api/plot_config.js
+        Additional configuration options
+        For the complete list of config options check out: 
+        https://github.com/plotly/plotly.js/blob/master/src/plot_api/plot_config.js
     datagen_mode : string
-                    Mode in which the data is generated
-                    by the datagen module
-                            stocks : random stock names are used for the index
-                            abc : alphabet values are used for the index
+        Mode in which the data is generated
+        by the datagen module
+            stocks : random stock names are used for the index
+            abc : alphabet values are used for the index
     dimensions : tuple
-                    Sets the default (width,height) of the chart
+        Sets the default (width,height) of the chart
     margin : dict or tuple
-                    Dictionary (l,r,b,t) or
-                    Tuple containing the left,
-                    right, bottom and top margins
+        Dictionary (l,r,b,t) or
+        Tuple containing the left,
+        right, bottom and top margins
     """
     if not _file_permissions:
         raise Exception("You don't have proper file permissions "
@@ -190,14 +190,11 @@ def get_config_file(*args):
         get_config_file('sharing')
 
     """
-    # if _file_permissions:
-    #     ensure_local_files()
-    #     return load_json_dict(CONFIG_FILE, *args)
-    # else:
-    #     return _FILE_CONTENT[CONFIG_FILE]
-    # 直接使用字典内容，不去读取文件
-    return _FILE_CONTENT[CONFIG_FILE]
-
+    if _file_permissions:
+        ensure_local_files()
+        return load_json_dict(CONFIG_FILE, *args)
+    else:
+        return _FILE_CONTENT[CONFIG_FILE]
 
 
 def get_user_colors(*args):

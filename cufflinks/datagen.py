@@ -10,7 +10,7 @@ from .exceptions import CufflinksError
 
 def scattergeo():
     """
-    Returns 
+    Returns
     """
     path = os.path.join(os.path.dirname(__file__), '../data/scattergeo.csv')
     df = pd.read_csv(path)
@@ -23,7 +23,7 @@ def scattergeo():
 
 def choropleth():
     """
-    Returns 
+    Returns
     """
     path = os.path.join(os.path.dirname(__file__), '../data/choropleth.csv')
     df = pd.read_csv(path)
@@ -34,21 +34,21 @@ def choropleth():
 
 def scatter3d(n_categories=5, n=10, prefix='category', mode=None):
     """
-    Returns a DataFrame with the required format for 
+    Returns a DataFrame with the required format for
     a scatter3d plot
 
     Parameters:
     -----------
-            n_categories : int
-                    Number of categories 
-            n : int
-                    Number of points for each trace
-            prefix : string
-                    Name for each trace
-            mode : string
-                    Format for each item
-                            'abc' for alphabet columns
-                            'stocks' for random stock names
+        n_categories : int
+        	Number of categories
+        n : int
+        	Number of points for each trace
+        prefix : string
+        	Name for each trace
+        mode : string
+        	Format for each item
+         		'abc' for alphabet columns
+           		'stocks' for random stock names
     """
     categories = []
     for i in range(n_categories):
@@ -62,21 +62,21 @@ def scatter3d(n_categories=5, n=10, prefix='category', mode=None):
 
 def bubble3d(n_categories=5, n=10, prefix='category', mode=None):
     """
-    Returns a DataFrame with the required format for 
+    Returns a DataFrame with the required format for
     a bubble3d plot
 
     Parameters:
     -----------
-            n_categories : int
-                    Number of categories 
-            n : int
-                    Number of points for each trace
-            prefix : string
-                    Name for each trace
-            mode : string
-                    Format for each item
-                            'abc' for alphabet columns
-                            'stocks' for random stock names
+		n_categories : int
+			Number of categories
+		n : int
+			Number of points for each trace
+		prefix : string
+			Name for each trace
+		mode : string
+			Format for each item
+				'abc' for alphabet columns
+				'stocks' for random stock names
     """
     categories = []
     for i in range(n_categories):
@@ -91,13 +91,13 @@ def bubble3d(n_categories=5, n=10, prefix='category', mode=None):
 
 def bubble(n_categories=5, n=10, prefix='category', mode=None):
     """
-    Returns a DataFrame with the required format for 
+    Returns a DataFrame with the required format for
     a bubble plot
 
     Parameters:
     -----------
             n_categories : int
-                    Number of categories 
+                    Number of categories
             n : int
                     Number of points for each category
             prefix : string
@@ -119,13 +119,13 @@ def bubble(n_categories=5, n=10, prefix='category', mode=None):
 
 def pie(n_labels=5, mode=None):
     """
-    Returns a DataFrame with the required format for 
+    Returns a DataFrame with the required format for
     a pie plot
 
     Parameters:
     -----------
             n_labels : int
-                    Number of labels 
+                    Number of labels
             mode : string
                     Format for each item
                             'abc' for alphabet columns
@@ -137,13 +137,13 @@ def pie(n_labels=5, mode=None):
 
 def scatter(n_categories=5, n=10, prefix='category', mode=None):
     """
-    Returns a DataFrame with the required format for 
+    Returns a DataFrame with the required format for
     a scatter plot
 
     Parameters:
     -----------
             n_categories : int
-                    Number of categories 
+                    Number of categories
             n : int
                     Number of points for each category
             prefix : string
@@ -164,7 +164,7 @@ def scatter(n_categories=5, n=10, prefix='category', mode=None):
 
 def heatmap(n_x=5, n_y=10):
     """
-    Returns a DataFrame with the required format for 
+    Returns a DataFrame with the required format for
     a heatmap plot
 
     Parameters:
@@ -181,13 +181,13 @@ def heatmap(n_x=5, n_y=10):
 
 def lines(n_traces=5, n=100, columns=None, dateIndex=True, mode=None):
     """
-    Returns a DataFrame with the required format for 
+    Returns a DataFrame with the required format for
     a scatter (lines) plot
 
     Parameters:
     -----------
             n_traces : int
-                    Number of traces 
+                    Number of traces
             n : int
                     Number of points for each trace
             columns : [str]
@@ -208,7 +208,7 @@ def lines(n_traces=5, n=100, columns=None, dateIndex=True, mode=None):
 
 def bars(n=3, n_categories=3, prefix='category', columns=None, mode='abc'):
     """
-    Returns a DataFrame with the required format for 
+    Returns a DataFrame with the required format for
     a bar plot
 
     Parameters:
@@ -238,7 +238,7 @@ def bars(n=3, n_categories=3, prefix='category', columns=None, mode='abc'):
 
 def ohlc(n=100):
     """
-    Returns a DataFrame with the required format for 
+    Returns a DataFrame with the required format for
     a candlestick or ohlc plot
     df[['open','high','low','close']]
 
@@ -262,7 +262,7 @@ def ohlc(n=100):
 
 def ohlcv(n=100):
     """
-    Returns a DataFrame with the required format for 
+    Returns a DataFrame with the required format for
     a candlestick or ohlc plot
     df[['open','high','low','close','volume']
 
@@ -279,13 +279,13 @@ def ohlcv(n=100):
 
 def box(n_traces=5, n=100, mode=None):
     """
-    Returns a DataFrame with the required format for 
+    Returns a DataFrame with the required format for
     a box plot
 
     Parameters:
     -----------
             n_traces : int
-                    Number of traces 
+                    Number of traces
             n : int
                     Number of points for each trace
             mode : string
@@ -300,13 +300,13 @@ def box(n_traces=5, n=100, mode=None):
 
 def histogram(n_traces=1, n=500, dispersion=2, mode=None):
     """
-    Returns a DataFrame with the required format for 
+    Returns a DataFrame with the required format for
     a histogram plot
 
     Parameters:
     -----------
             n_traces : int
-                    Number of traces 
+                    Number of traces
             n : int
                     Number of points for each trace
             mode : string
@@ -321,13 +321,13 @@ def histogram(n_traces=1, n=500, dispersion=2, mode=None):
 
 def distplot(n_traces=1, n=500, dispersion=3, mode=None):
     """
-    Returns a DataFrame with the required format for 
+    Returns a DataFrame with the required format for
     a distribution plot (distplot)
 
     Parameters:
     -----------
             n_traces : int
-                    Number of traces 
+                    Number of traces
             n : int
                     Number of points for each trace
             mode : string
@@ -340,13 +340,13 @@ def distplot(n_traces=1, n=500, dispersion=3, mode=None):
 
 def violin(n=500, dispersion=3, categories=True, n_categories=5):
     """
-    Returns a DataFrame with the required format for 
+    Returns a DataFrame with the required format for
     a distribution plot (distplot)
 
     Parameters:
     -----------
             n : int
-                    Number of points 
+                    Number of points
             categories : bool or int
                     If True, then a column with categories is added
             n_categories : int
@@ -362,7 +362,7 @@ def violin(n=500, dispersion=3, categories=True, n_categories=5):
 
 def surface(n_x=20, n_y=20):
     """
-    Returns a DataFrame with the required format for 
+    Returns a DataFrame with the required format for
     a surface plot
 
     Parameters:
@@ -384,7 +384,7 @@ def surface(n_x=20, n_y=20):
 
 def sinwave(n=4, inc=.25):
     """
-    Returns a DataFrame with the required format for 
+    Returns a DataFrame with the required format for
     a surface (sine wave) plot
 
     Parameters:

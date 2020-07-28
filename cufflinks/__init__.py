@@ -26,7 +26,7 @@ from .utils import pp
 from .tools import subplots, scatter_matrix, figures, getLayout, getThemes, getTheme
 from .extract import to_df
 from .auth import set_config_file, get_config_file
-from .quant_figure import QuantFig
+# from .quant_figure import QuantFig
 from .offline import is_offline, go_offline, go_online
 from .version import __version__
 

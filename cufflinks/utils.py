@@ -46,14 +46,14 @@ def dict_path(from_d, to_d={}, l=[]):
     Returns a dictionary with the path in which each of the keys is found
 
     Parameters:
-            from_d : dict
-                    Dictionary that contains all the keys, values
-            to_d : dict
-                    Dictionary to which the results will be appended
+	from_d : dict
+		Dictionary that contains all the keys, values
+	to_d : dict
+		Dictionary to which the results will be appended
 
-    Example: 
+    Example:
     --------
-    
+
     dict_path({'level1':{'level2':{'level3':'value'}}})
     Returns
             {'level1': [],
@@ -85,7 +85,7 @@ def dict_update(d, k, val, d_ref=None):
 
 
 def pp(el, preString=''):
-    """ 
+    """
     Formats (prettyprint) a concatenated dictionary
     """
     tab = ' '*4
@@ -141,20 +141,20 @@ def inverseDict(d):
 
 def kwargs_from_keyword(from_kwargs, to_kwargs, keyword, clean_origin=True):
     """
-    Looks for keys of the format keyword_value. 
+    Looks for keys of the format keyword_value.
     And return a dictionary with {keyword:value} format
 
     Parameters:
     -----------
-            from_kwargs : dict
-                    Original dictionary
-            to_kwargs : dict
-                    Dictionary where the items will be appended
-            keyword : string
-                    Keyword to look for in the orginal dictionary
-            clean_origin : bool
-                    If True then the k,v pairs from the original 
-                    dictionary are deleted
+	from_kwargs : dict
+		Original dictionary
+	to_kwargs : dict
+		Dictionary where the items will be appended
+	keyword : string
+		Keyword to look for in the orginal dictionary
+	clean_origin : bool
+		If True then the k,v pairs from the original
+		dictionary are deleted
     """
     for k in list(from_kwargs.keys()):
         if '{0}_'.format(keyword) in k:
@@ -202,8 +202,8 @@ def save_pickle(obj, filename):
     Serializes a given object
     Parameters:
     -----------
-            obj : object
-            filename : string
+	obj : object
+	filename : string
     """
     return pickle.dump(obj, open(filename, 'wb'))
 
@@ -213,7 +213,7 @@ def load_pickle(filename):
     Loads a serialized object
     Parameters:
     -----------
-            filename : string
+	filename : string
     """
     return pickle.load(open(filename, 'rb'))
 
