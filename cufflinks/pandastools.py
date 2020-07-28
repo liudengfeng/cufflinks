@@ -7,16 +7,16 @@ def _screen(self, include=True, **kwargs):
     Filters a DataFrame for columns that contain the given strings. 
     Parameters:
     -----------
-            include : bool
-                    If False then it will exclude items that match 
-                    the given filters.
-                    This is the same as passing a regex ^keyword
-            kwargs : 
-                    Key value pairs that indicate the column and 
-                    value to screen for
+        include : bool
+            If False then it will exclude items that match 
+            the given filters.
+            This is the same as passing a regex ^keyword
+        kwargs : 
+            Key value pairs that indicate the column and 
+            value to screen for
 
     Example:
-            df.screen(col1='string_to_match',col2=['string1','string2'])
+        df.screen(col1='string_to_match',col2=['string1','string2'])
     """
     df = self.copy()
     for k, v in list(kwargs.items()):
