@@ -35,8 +35,10 @@ def dict_to_iplot(d):
     return l
 
 
-def _to_iplot(self, colors=None, colorscale=None, kind='scatter', mode='lines', interpolation='linear', symbol='dot', size='12', fill=False,
-              width=3, dash='solid', sortbars=False, keys=False, bestfit=False, bestfit_colors=None, opacity=0.6,
+def _to_iplot(self, colors=None, colorscale=None, kind='scatter',
+              mode='lines', interpolation='linear', symbol='dot', size='12', fill=False,
+              width=3, dash='solid', sortbars=False, keys=False,
+              bestfit=False, bestfit_colors=None, opacity=0.6,
               mean=False, mean_colors=None, asDates=False, asTimestamp=False, text=None, **kwargs):
     """
     Generates a plotly Data object 
@@ -183,6 +185,7 @@ def _to_iplot(self, colors=None, colorscale=None, kind='scatter', mode='lines', 
             bestfit=False, colors=bestfit_colors, kind='scatter', asTimestamp=asTimestamp)
         for line in bestfit_lines:
             line['line']['dash'] = 'dash'
+            line['line']['width'] = 1
             if not bestfit_colors:
                 line['line']['color'] = to_rgba(line['line']['color'], .6)
         data = lines_plotly
@@ -209,13 +212,20 @@ def _to_iplot(self, colors=None, colorscale=None, kind='scatter', mode='lines', 
     return lines_plotly
 
 
-def _iplot(self, kind='scatter', data=None, layout=None, filename='', sharing=None, title='', xTitle='', yTitle='', zTitle='', theme=None, colors=None, colorscale=None, fill=False, width=None,
-           dash='solid', mode='', interpolation='linear', symbol='circle', size=12, barmode='', sortbars=False, bargap=None, bargroupgap=None, bins=None, histnorm='',
-           histfunc='count', orientation='v', boxpoints=False, annotations=None, keys=False, bestfit=False,
-           bestfit_colors=None, mean=False, mean_colors=None, categories='', x='', y='', z='', text='', gridcolor=None,
-           zerolinecolor=None, margin=None, labels=None, values=None, secondary_y='', secondary_y_title='', subplots=False, shape=None, error_x=None,
-           error_y=None, error_type='data', locations=None, lon=None, lat=None, asFrame=False, asDates=False, asFigure=False,
-           asImage=False, dimensions=None, asPlot=False, asUrl=False, online=None, **kwargs):
+def _iplot(self, kind='scatter', data=None, layout=None, filename='',
+           sharing=None, title='', xTitle='', yTitle='', zTitle='',
+           theme=None, colors=None, colorscale=None, fill=False, width=None,
+           dash='solid', mode='', interpolation='linear', symbol='circle', size=12, barmode='', 
+           sortbars=False, bargap=None, bargroupgap=None, bins=None, histnorm='',
+           histfunc='count', orientation='v', boxpoints=False,
+           annotations=None, keys=False, bestfit=False,
+           bestfit_colors=None, mean=False, mean_colors=None,
+           categories='', x='', y='', z='', text='', gridcolor=None,
+           zerolinecolor=None, margin=None, labels=None, values=None,
+           secondary_y='', secondary_y_title='', subplots=False, shape=None, error_x=None,
+           error_y=None, error_type='data', locations=None, lon=None, lat=None, asFrame=False, 
+           asDates=False, asFigure=False,asImage=False, dimensions=None, 
+           asPlot=False, asUrl=False, online=None, **kwargs):
     """
     Returns a plotly chart either as inline chart, image of Figure object
 
@@ -403,8 +413,8 @@ def _iplot(self, kind='scatter', data=None, layout=None, filename='', sharing=No
                 h 
                 v
             Sets the orientation of the bars. If set to 'v', the length of each
- |          bar will run vertically. If set to 'h', the length of each bar will
- |          run horizontally
+            bar will run vertically. If set to 'h', the length of each bar will
+            run horizontally
             * Only valid when kind is 'histogram','bar' or 'box'
         boxpoints : string
             Displays data points in a box plot
@@ -1347,8 +1357,8 @@ def _figure(self, **kwargs):
 
     Parameters:
     -----------
-            All properties avaialbe can be seen with
-            help(cufflinks.pd.DataFrame.iplot)
+        All properties avaialbe can be seen with
+        help(cufflinks.pd.DataFrame.iplot)
     """
     kwargs['asFigure'] = True
     return self.iplot(**kwargs)
@@ -1360,8 +1370,8 @@ def _layout(self, **kwargs):
 
     Parameters:
     -----------
-            All properties avaialbe can be seen with
-            help(cufflinks.pd.DataFrame.iplot)
+        All properties avaialbe can be seen with
+        help(cufflinks.pd.DataFrame.iplot)
     """
     kwargs['asFigure'] = True
     return self.iplot(**kwargs)['layout']
@@ -1544,8 +1554,8 @@ def _ta_figure(self, **kwargs):
 
     Parameters:
     -----------
-            All properties avaialbe can be seen with
-            help(cufflinks.pd.DataFrame.iplot)
+        All properties avaialbe can be seen with
+        help(cufflinks.pd.DataFrame.iplot)
     """
     kwargs['asFigure'] = True
     return self.ta_plot(**kwargs)
@@ -1558,65 +1568,64 @@ def _ta_plot(self, study, periods=14, column=None, include=True, str='{name}({pe
 
     Parameters:
     -----------
-            study : string
-                Technical Study to be charted
-                    sma - 'Simple Moving Average'
-                    rsi - 'R Strength Indicator'
-            periods : int
-                Number of periods
-            column : string
-                Name of the column on which the
-                study will be done
-            include : bool
-                Indicates if the input column(s)
-                should be included in the chart
-            str : string
-                Label factory for studies
-                The following wildcards can be used:
-                    {name} : Name of the column
-                    {study} : Name of the study
-                    {period} : Period used
-                Examples:
-                    'study: {study} - period: {period}'
-            detail : bool
-                If True the supporting data/calculations
-                are included in the chart 
-            study_colors : string or [string]
-                Colors to be used for the studies
+        study : string
+            Technical Study to be charted
+                sma - 'Simple Moving Average'
+                rsi - 'R Strength Indicator'
+        periods : int
+            Number of periods
+        column : string
+            Name of the column on which the
+            study will be done
+        include : bool
+            Indicates if the input column(s)
+            should be included in the chart
+        str : string
+            Label factory for studies
+            The following wildcards can be used:
+                {name} : Name of the column
+                {study} : Name of the study
+                {period} : Period used
+            Examples:
+                'study: {study} - period: {period}'
+        detail : bool
+            If True the supporting data/calculations
+            are included in the chart 
+        study_colors : string or [string]
+            Colors to be used for the studies
 
-        Study Specific Parameters
-        -------------------------
-        RSI 
-            rsi_upper : int (0,100]
-                Level for the upper rsi band
-                default : 70
-            rsi_lower : int (0,100]
-                Level for the lower rsi band
-                default : 30
-        CCI 
-            cci_upper : int 
-                Level for the upper cci band
-                default : 100
-            cci_lower : int 
-                Level for the lower cci band
-                default : -100
-        BOLL
-            boll_std : int or float
-                Number of standard deviations
-        MACD
-            fast_period : int
-                Number of periods for the fast moving average
-            slow_period : int
-                Number of periods for the slow moving average
-            signal_period : int
-                Number of periods for the signal 
-        CORREL
-            how : string
-                Method for the correlation calculation
-                    values
-                    pct_cht
-                    diff
-
+    Study Specific Parameters
+    -------------------------
+    RSI 
+        rsi_upper : int (0,100]
+            Level for the upper rsi band
+            default : 70
+        rsi_lower : int (0,100]
+            Level for the lower rsi band
+            default : 30
+    CCI 
+        cci_upper : int 
+            Level for the upper cci band
+            default : 100
+        cci_lower : int 
+            Level for the lower cci band
+            default : -100
+    BOLL
+        boll_std : int or float
+            Number of standard deviations
+    MACD
+        fast_period : int
+            Number of periods for the fast moving average
+        slow_period : int
+            Number of periods for the slow moving average
+        signal_period : int
+            Number of periods for the signal 
+    CORREL
+        how : string
+            Method for the correlation calculation
+                values
+                pct_cht
+                diff
     """
 
     if 'columns' in iplot_kwargs:
@@ -1787,7 +1796,6 @@ def _fig_iplot(self, validate=True, sharing=None, filename='',
 
     Other Kwargs
     ============
-
         legend : bool
             If False then the legend will not be shown		
     """

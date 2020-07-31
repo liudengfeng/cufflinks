@@ -93,8 +93,8 @@ class QuantFig(object):
 		
 		# self.theme initial values
 		self.theme['theme']=kwargs.pop('theme',auth.get_config_file()['theme'])
-		self.theme['up_color']=kwargs.pop('up_color','#17BECF')  # java
-		self.theme['down_color']=kwargs.pop('down_color','grey')
+		self.theme['up_color']=kwargs.pop('up_color','red')  # red
+		self.theme['down_color']=kwargs.pop('down_color','green')
 		
 		# self.panels initial values
 		self.panels['min_panel_size']=kwargs.pop('min_panel_size',.15)
@@ -238,8 +238,10 @@ class QuantFig(object):
 		Returns a Plotly figure
 
 		"""
+		show_range = kwargs.pop('show_range', None)
 		kwargs['asFigure']=True
-		return self.iplot(**kwargs)
+		fig = self.iplot(show_range=show_range, **kwargs)
+		return fig
 	
 	def _panel_domains(self,n=2,min_panel_size=.15,spacing=0.08,top_margin=1,bottom_margin=0):
 		"""
@@ -1055,7 +1057,6 @@ class QuantFig(object):
 			down_color=colors.normalize(display['down_color']) if 'rgba' not in display['down_color'] else display['down_color']
 			study_kwargs=utils.kwargs_from_keyword(kwargs,{},'study')
 			
-
 			for i in range(len(base)):
 				if i != 0:
 					if base[i] > base[i-1]:
@@ -1139,14 +1140,38 @@ class QuantFig(object):
 					trace.update(line=dict(color=color,width=1))
 					fig['data'].append(trace)
 
-
 		return fig
-	
-	def iplot(self,**kwargs):
-		__QUANT_FIGURE_EXPORT = ['asFigure','asUrl','asImage','asPlot','display_image','validate',
-						 'sharing','online','filename','dimensions']
+
+	def iplot(self, show_range=None, **kwargs):
+		# 日期格式
+		date_fmt = kwargs.pop("date_fmt", r"%m月%d日<br>%Y年")
+		rotation = 0
+		asFigure=kwargs.get('asFigure',False)
+		fig, export_kwargs = self._iplot(show_range, **kwargs)
+		# 不隐藏周末及假日
+		fig = date_tools.autofmt_xdate_cn(fig, date_fmt, rotation, hide='all')
+		# 不显示图例
+		fig.update_layout(showlegend=False)
+		if asFigure:
+			return go.Figure(fig)
+		else:
+			return pt_iplot(fig, **export_kwargs)
+
+
+	def _iplot(self, show_range, **kwargs):
+		__QUANT_FIGURE_EXPORT = [
+			'asFigure','asUrl','asImage','asPlot','display_image','validate',
+			'sharing','online','filename','dimensions']
 
 		layout=copy.deepcopy(self.layout)
+
+		# 显示范围
+		if show_range:
+			assert isinstance(show_range, list)
+			assert len(show_range) == 2
+			assert date_tools._is_date_like(show_range)
+			layout.update(xaxis_range=show_range)
+
 		data=copy.deepcopy(self.data)
 		self_kwargs=copy.deepcopy(self.kwargs)
 
@@ -1156,7 +1181,8 @@ class QuantFig(object):
 		asFigure=kwargs.pop('asFigure',False)
 		showstudies=kwargs.pop('showstudies',True)
 		study_kwargs=utils.kwargs_from_keyword(kwargs,{},'study',True)
-		datalegend=kwargs.pop('datalegend',data.pop('datalegend',data.pop('showlegend',True)))
+		# 🆗 默认不显示图例
+		datalegend=kwargs.pop('datalegend',data.pop('datalegend',data.pop('showlegend',False)))
 		export_kwargs = utils.check_kwargs(kwargs,__QUANT_FIGURE_EXPORT)
 
 		_slice=data.pop('slice')
@@ -1206,12 +1232,11 @@ class QuantFig(object):
 
 		if d['kind'] not in ('candle','candlestick','ohlc'):
 			tools._move_axis(fig, yaxis='y2')  # FIXME TKP
-			pass
-		else:
-			if not datalegend:
-
-				fig['data'][0]['decreasing'].update(showlegend=False)
-				fig['data'][0]['increasing'].update(showlegend=False)
+		# else:
+		# 	pass
+			# if not datalegend:
+			# 	fig['data'][0]['decreasing'].update(showlegend=False)
+			# 	fig['data'][0]['increasing'].update(showlegend=False)
 
 		## 126 Shapes in wrong axis
 		for shape in fig['layout']['shapes']:
@@ -1239,7 +1264,6 @@ class QuantFig(object):
 					del study_fig['layout']['yaxis']
 				if v['kind'] in ('boll','sma','ema','ptps'):
 					tools._move_axis(study_fig, yaxis='y2')  # FIXME TKP
-					pass
 				if v['kind'] in ('rsi','volume','macd','atr','adx','cci','dmi'):
 					max_panel+=1
 					panel_data['n']+=1
@@ -1264,13 +1288,11 @@ class QuantFig(object):
 				del fig['layout']['yaxis1']
 			except:
 				pass
-		if asFigure:
-			return go.Figure(fig)
-		else:
-			return pt_iplot(fig, **export_kwargs)
+		return go.Figure(fig), export_kwargs
+
 	
 	def __getitem__(self,key):
-			return self.__dict__[key]
+		return self.__dict__[key]
 		
 	def __repr__(self):
 		_d=self.__dict__.copy()

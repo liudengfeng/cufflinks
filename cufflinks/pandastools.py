@@ -36,7 +36,7 @@ def _swapcolumns(self):
     Useful for inverting axis when plotting. 
 
     Example:
-            df.swapcolumns()
+        df.swapcolumns()
 
     Returns : DataFrame
 
@@ -49,12 +49,12 @@ def bestfit(self):
     Returns a series with the bestfit values. 
 
     Example:
-            Series.bestfit()
+        Series.bestfit()
 
     Returns: series
-            The returned series contains a parameter 
-            called 'formula' which includes the string representation 
-            of the bestfit line. 
+        The returned series contains a parameter 
+        called 'formula' which includes the string representation 
+        of the bestfit line. 
     """
     # statsmodel cannot be included on requirements.txt
     # see https://github.com/scikit-learn/scikit-learn/issues/4164
@@ -88,17 +88,17 @@ def normalize(self, asOf=None, multiplier=100):
     Returns a normalized series or DataFrame
 
     Example:
-            Series.normalize()
+        Series.normalize()
 
     Returns: series of DataFrame
 
     Parameters:
     -----------
-            asOf : string
-                    Date format
-                    '2015-02-29'
-            multiplier : int
-                    Factor by which the results will be adjusted
+        asOf : string
+            Date format
+            '2015-02-29'
+        multiplier : int
+            Factor by which the results will be adjusted
     """
     if not asOf:
         x0 = self.iloc[0]

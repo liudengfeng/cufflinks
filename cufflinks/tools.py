@@ -480,12 +480,12 @@ def get_annotations(df, annotations, kind='lines', theme=None, **kwargs):
     Parameters:
     -----------
         df : DataFrame
-                Original DataFrame of values
+            Original DataFrame of values
         annotations : dict or list
-                Dictionary of annotations
-                        {x_point : text}
-                or
-                        List of Plotly annotations
+            Dictionary of annotations
+                {x_point : text}
+            or
+                List of Plotly annotations
     """
 
     for key in list(kwargs.keys()):
@@ -593,7 +593,7 @@ def strip_figures(figure):
     Parameters:
     -----------
         figure : Figure
-                Plotly Figure
+            Plotly Figure
     """
     fig = []
     for trace in figure['data']:
@@ -609,7 +609,7 @@ def get_base_layout(figs):
     Parameters:
     -----------
         fig : list(Figures)
-                List of Plotly Figures
+            List of Plotly Figures
     """
     layout = {}
     for fig in figs:
@@ -627,16 +627,16 @@ def figures(df, specs, asList=False):
     Parameters:
     -----------
         df : DataFrame
-                Pandas DataFrame
+            Pandas DataFrame
         specs : list(dict)
-                List of dictionaries with the properties
-                of each figure.
-                All properties avaialbe can be seen with
-                help(cufflinks.pd.DataFrame.iplot)
+            List of dictionaries with the properties
+            of each figure.
+            All properties avaialbe can be seen with
+            help(cufflinks.pd.DataFrame.iplot)
         asList : boolean
-                If True, then a list of figures is returned.
-                Otherwise a single (merged) figure is returned.
-                Default : False
+            If True, then a list of figures is returned.
+            Otherwise a single (merged) figure is returned.
+            Default : False
     """
     figs = []
     for spec in specs:
@@ -654,7 +654,7 @@ def merge_figures(figures):
     Parameters:
     -----------
         figures : list(Figures)
-                List of figures to be merged.
+            List of figures to be merged.
     """
     figure = {}
     data = []
@@ -677,96 +677,96 @@ def subplots(figures, shape=None,
 
     Parameters:
     -----------
-                figures : [Figures]
-                        List of Plotly Figures
-                shape : (rows,cols)
-                        Tuple indicating the size of rows and columns
-                        If omitted then the layout is automatically set
-                shared_xaxes : bool
-                        Assign shared x axes.
-                        If True, subplots in the same grid column have one common
-                        shared x-axis at the bottom of the grid.
-                shared_yaxes : bool
-                        Assign shared y axes.
-                        If True, subplots in the same grid row have one common
-                        shared y-axis on the left-hand side of the grid.
-                start_cell : string
-                        'bottom-left'
-                        'top-left'
-                        Choose the starting cell in the subplot grid used to set the
-                        domains of the subplots.
-                theme : string
-                        Layout Theme
-                                solar
-                                pearl
-                                white
-                        see cufflinks.getThemes() for all
-                        available themes
-                base_layout : layout (dict)
-                        Layout to be used as base where the subplots will be
-                        added
-                subplot_titles : list(string)
-                        List of strings that contains the titles of each
-                        plot.
-                horizontal_spacing : float
-                                [0,1]
-                        Space between subplot columns.
-                vertical_spacing : float
-                        Space between subplot rows.
-                specs : list of dicts
-                        Subplot specifications.
-                                ex1: specs=[[{}, {}], [{'colspan': 2}, None]]
-                                ex2: specs=[[{'rowspan': 2}, {}], [None, {}]]
+        figures : [Figures]
+            List of Plotly Figures
+        shape : (rows,cols)
+            Tuple indicating the size of rows and columns
+            If omitted then the layout is automatically set
+        shared_xaxes : bool
+            Assign shared x axes.
+            If True, subplots in the same grid column have one common
+            shared x-axis at the bottom of the grid.
+        shared_yaxes : bool
+            Assign shared y axes.
+            If True, subplots in the same grid row have one common
+            shared y-axis on the left-hand side of the grid.
+        start_cell : string
+            'bottom-left'
+            'top-left'
+            Choose the starting cell in the subplot grid used to set the
+            domains of the subplots.
+        theme : string
+            Layout Theme
+                solar
+                pearl
+                white
+            see cufflinks.getThemes() for all
+            available themes
+        base_layout : layout (dict)
+            Layout to be used as base where the subplots will be
+            added
+        subplot_titles : list(string)
+            List of strings that contains the titles of each
+            plot.
+        horizontal_spacing : float
+            [0,1]
+            Space between subplot columns.
+        vertical_spacing : float
+            Space between subplot rows.
+        specs : list of dicts
+            Subplot specifications.
+                ex1: specs=[[{}, {}], [{'colspan': 2}, None]]
+                ex2: specs=[[{'rowspan': 2}, {}], [None, {}]]
 
-                        - Indices of the outer list correspond to subplot grid rows
-                                starting from the bottom. The number of rows in 'specs'
-                                must be equal to 'rows'.
+            - Indices of the outer list correspond to subplot grid rows
+                starting from the bottom. The number of rows in 'specs'
+                must be equal to 'rows'.
 
-                        - Indices of the inner lists correspond to subplot grid columns
-                                starting from the left. The number of columns in 'specs'
-                                must be equal to 'cols'.
+            - Indices of the inner lists correspond to subplot grid columns
+                starting from the left. The number of columns in 'specs'
+                must be equal to 'cols'.
 
-                        - Each item in the 'specs' list corresponds to one subplot
-                                in a subplot grid. (N.B. The subplot grid has exactly 'rows'
-                                times 'cols' cells.)
+            - Each item in the 'specs' list corresponds to one subplot
+                in a subplot grid. (N.B. The subplot grid has exactly 'rows'
+                times 'cols' cells.)
 
-                        - Use None for blank a subplot cell (or to move pass a col/row span).
+            - Use None for blank a subplot cell (or to move pass a col/row span).
 
-                        - Note that specs[0][0] has the specs of the 'start_cell' subplot.
+            - Note that specs[0][0] has the specs of the 'start_cell' subplot.
 
-                        - Each item in 'specs' is a dictionary.
-                                The available keys are:
+            - Each item in 'specs' is a dictionary.
+                The available keys are:
 
-                                * is_3d (boolean, default=False): flag for 3d scenes
-                                * colspan (int, default=1): number of subplot columns
-                                        for this subplot to span.
-                                * rowspan (int, default=1): number of subplot rows
-                                        for this subplot to span.
-                                * l (float, default=0.0): padding left of cell
-                                * r (float, default=0.0): padding right of cell
-                                * t (float, default=0.0): padding right of cell
-                                * b (float, default=0.0): padding bottom of cell
+                * is_3d (boolean, default=False): flag for 3d scenes
+                * colspan (int, default=1): number of subplot columns
+                    for this subplot to span.
+                * rowspan (int, default=1): number of subplot rows
+                    for this subplot to span.
+                * l (float, default=0.0): padding left of cell
+                * r (float, default=0.0): padding right of cell
+                * t (float, default=0.0): padding right of cell
+                * b (float, default=0.0): padding bottom of cell
 
-                        - Use 'horizontal_spacing' and 'vertical_spacing' to adjust
-                                the spacing in between the subplots.
+            - Use 'horizontal_spacing' and 'vertical_spacing' to adjust
+                    the spacing in between the subplots.
 
-                insets : list of dicts
-                        Inset specifications.
+        insets : list of dicts
+            Inset specifications.
 
-                        - Each item in 'insets' is a dictionary.
-                                The available keys are:
+            - Each item in 'insets' is a dictionary.
+                The available keys are:
 
-                                * cell (tuple, default=(1,1)): (row, col) index of the
-                                                subplot cell to overlay inset axes onto.
-                                * is_3d (boolean, default=False): flag for 3d scenes
-                                * l (float, default=0.0): padding left of inset
-                                                        in fraction of cell width
-                                * w (float or 'to_end', default='to_end') inset width
-                                                        in fraction of cell width ('to_end': to cell right edge)
-                                * b (float, default=0.0): padding bottom of inset
-                                                        in fraction of cell height
-                                * h (float or 'to_end', default='to_end') inset height
-                                                        in fraction of cell height ('to_end': to cell top edge)
+                * cell (tuple, default=(1,1)): (row, col) index of the
+                    subplot cell to overlay inset axes onto.
+                * is_3d (boolean, default=False): flag for 3d scenes
+                * l (float, default=0.0): padding left of inset
+                    in fraction of cell width
+                * w (float or 'to_end', default='to_end') inset width
+                    in fraction of cell width ('to_end': to cell right edge)
+                * b (float, default=0.0): padding bottom of inset
+                    in fraction of cell height
+                * h (float or 'to_end', default='to_end') inset height
+                    in fraction of cell height ('to_end': to cell top edge)
     """
     if not isinstance(figures, list):
         figures = [figures]
@@ -832,89 +832,89 @@ def get_subplots(rows=1, cols=1,
 
     Parameters:
     -----------
-                rows : int
-                        Number of rows
-                cols : int
-                        Number of cols
-                shared_xaxes : bool
-                        Assign shared x axes.
-                        If True, subplots in the same grid column have one common
-                        shared x-axis at the bottom of the gird.
-                shared_yaxes : bool
-                        Assign shared y axes.
-                        If True, subplots in the same grid row have one common
-                        shared y-axis on the left-hand side of the gird.
-                start_cell : string
-                        'bottom-left'
-                        'top-left'
-                        Choose the starting cell in the subplot grid used to set the
-                        domains of the subplots.
-                theme : string
-                        Layout Theme
-                                solar
-                                pearl
-                                white
-                        see cufflinks.getThemes() for all
-                        available themes
-                horizontal_spacing : float
-                        [0,1]
-                        Space between subplot columns.
-                vertical_spacing : float
-                        Space between subplot rows.
-                specs : list of dicts
-                        Subplot specifications.
-                                ex1: specs=[[{}, {}], [{'colspan': 2}, None]]
-                                ex2: specs=[[{'rowspan': 2}, {}], [None, {}]]
+        rows : int
+            Number of rows
+        cols : int
+            Number of cols
+        shared_xaxes : bool
+            Assign shared x axes.
+            If True, subplots in the same grid column have one common
+            shared x-axis at the bottom of the gird.
+        shared_yaxes : bool
+            Assign shared y axes.
+            If True, subplots in the same grid row have one common
+            shared y-axis on the left-hand side of the gird.
+        start_cell : string
+            'bottom-left'
+            'top-left'
+            Choose the starting cell in the subplot grid used to set the
+            domains of the subplots.
+        theme : string
+            Layout Theme
+                solar
+                pearl
+                white
+            see cufflinks.getThemes() for all
+            available themes
+        horizontal_spacing : float
+            [0,1]
+            Space between subplot columns.
+        vertical_spacing : float
+            Space between subplot rows.
+        specs : list of dicts
+            Subplot specifications.
+                ex1: specs=[[{}, {}], [{'colspan': 2}, None]]
+                ex2: specs=[[{'rowspan': 2}, {}], [None, {}]]
 
-                        - Indices of the outer list correspond to subplot grid rows
-                                starting from the bottom. The number of rows in 'specs'
-                                must be equal to 'rows'.
+            - Indices of the outer list correspond to subplot grid rows
+                starting from the bottom. The number of rows in 'specs'
+                must be equal to 'rows'.
 
-                        - Indices of the inner lists correspond to subplot grid columns
-                                starting from the left. The number of columns in 'specs'
-                                must be equal to 'cols'.
+            - Indices of the inner lists correspond to subplot grid columns
+                starting from the left. The number of columns in 'specs'
+                must be equal to 'cols'.
 
-                        - Each item in the 'specs' list corresponds to one subplot
-                                in a subplot grid. (N.B. The subplot grid has exactly 'rows'
-                                times 'cols' cells.)
+            - Each item in the 'specs' list corresponds to one subplot
+                in a subplot grid. (N.B. The subplot grid has exactly 'rows'
+                times 'cols' cells.)
 
-                        - Use None for blank a subplot cell (or to move pass a col/row span).
+            - Use None for blank a subplot cell (or to move pass a col/row span).
 
-                        - Note that specs[0][0] has the specs of the 'start_cell' subplot.
+            - Note that specs[0][0] has the specs of the 'start_cell' subplot.
 
-                        - Each item in 'specs' is a dictionary.
-                                The available keys are:
+            - Each item in 'specs' is a dictionary.
+                The available keys are:
 
-                                * is_3d (boolean, default=False): flag for 3d scenes
-                                * colspan (int, default=1): number of subplot columns
-                                                for this subplot to span.
-                                * rowspan (int, default=1): number of subplot rows
-                                                for this subplot to span.
-                                * l (float, default=0.0): padding left of cell
-                                * r (float, default=0.0): padding right of cell
-                                * t (float, default=0.0): padding right of cell
-                                * b (float, default=0.0): padding bottom of cell
+                * is_3d (boolean, default=False): flag for 3d scenes
+                * colspan (int, default=1): number of subplot columns
+                                for this subplot to span.
+                * rowspan (int, default=1): number of subplot rows
+                                for this subplot to span.
+                * l (float, default=0.0): padding left of cell
+                * r (float, default=0.0): padding right of cell
+                * t (float, default=0.0): padding right of cell
+                * b (float, default=0.0): padding bottom of cell
 
-                        - Use 'horizontal_spacing' and 'vertical_spacing' to adjust
-                                the spacing in between the subplots.
+            - Use 'horizontal_spacing' and 'vertical_spacing' to adjust
+                    the spacing in between the subplots.
 
-                insets : list of dicts
-                        Inset specifications.
+        insets : list of dicts
+            Inset specifications.
 
-                        - Each item in 'insets' is a dictionary.
-                                The available keys are:
+            - Each item in 'insets' is a dictionary.
+                The available keys are:
 
-                                * cell (tuple, default=(1,1)): (row, col) index of the
-                                        subplot cell to overlay inset axes onto.
-                                * is_3d (boolean, default=False): flag for 3d scenes
-                                * l (float, default=0.0): padding left of inset
-                                        in fraction of cell width
-                                * w (float or 'to_end', default='to_end') inset width
-                                        in fraction of cell width ('to_end': to cell right edge)
-                                * b (float, default=0.0): padding bottom of inset
-                                        in fraction of cell height
-                                * h (float or 'to_end', default='to_end') inset height
-                                        in fraction of cell height ('to_end': to cell top edge)
+                * cell (tuple, default=(1,1)): (row, col) index of the
+                        subplot cell to overlay inset axes onto.
+                * is_3d (boolean, default=False): flag for 3d scenes
+                * l (float, default=0.0): padding left of inset
+                        in fraction of cell width
+                * w (float or 'to_end', default='to_end') inset width
+                        in fraction of cell width ('to_end': to cell right edge)
+                * b (float, default=0.0): padding bottom of inset
+                        in fraction of cell height
+                * h (float or 'to_end', default='to_end') inset height
+                        in fraction of cell height ('to_end': to cell top edge)
     """
 
     if not theme:
@@ -1021,16 +1021,16 @@ def scatter_matrix(df, theme=None, bins=10, color='grey', size=2):
 
     Parameters:
     -----------
-                df : DataFrame
-                        Pandas DataFrame
-                theme : string
-                        Theme to be used (if not the default)
-                bins : int
-                        Number of bins to use for histogram
-                color : string
-                        Color to be used for each scatter plot
-                size : int
-                        Size for each marker on the scatter plot
+        df : DataFrame
+                Pandas DataFrame
+        theme : string
+                Theme to be used (if not the default)
+        bins : int
+                Number of bins to use for histogram
+        color : string
+                Color to be used for each scatter plot
+        size : int
+                Size for each marker on the scatter plot
     """
     if not theme:
         theme = auth.get_config_file()['theme']
@@ -1166,19 +1166,19 @@ def _set_axis(self, traces, on=None, side='right', title=''):
 
     Parameters:
     -----------
-                traces : list(str)
-                        List of trace names
-                on : string
-                        The axis in which the traces should be placed.
-                        If this is not indicated then a new axis will be
-                        created
-                side : string
-                        Side where the axis will be placed
-                                'left'
-                                'right'
-                title : string
-                        Sets the title of the axis
-                        Applies only to new axis
+        traces : list(str)
+            List of trace names
+        on : string
+            The axis in which the traces should be placed.
+            If this is not indicated then a new axis will be
+            created
+        side : string
+            Side where the axis will be placed
+                'left'
+                'right'
+        title : string
+            Sets the title of the axis
+            Applies only to new axis
     """
     fig = {}
     fig_cpy = fig_to_dict(self).copy()
@@ -1304,55 +1304,55 @@ def get_shape(kind='line', x=None, y=None, x0=None, y0=None, x1=None, y1=None,
 
     Parameters:
     -----------
-                kind : string
-                        Shape kind
-                                line
-                                rect
-                                circle
-                x : float
-                        x values for the shape.
-                        This assumes x0=x1
-                x0 : float
-                        x0 value for the shape
-                x1 : float
-                        x1 value for the shape
-                y : float
-                        y values for the shape.
-                        This assumes y0=y1
-                y0 : float
-                        y0 value for the shape
-                y1 : float
-                        y1 value for the shape
-                color : string
-                        color for shape line
-                dash : string
-                        line style
-                                solid
-                                dash
-                                dashdot
-                                dot
-                width : int
-                        line width
-                fillcolor : string
-                        shape fill color
-                fill : bool
-                        If True then fill shape
-                        If not fillcolor then the
-                        line color will be used
-                opacity : float [0,1]
-                        opacity of the fill
-                xref : string
-                        Sets the x coordinate system
-                        which this object refers to
-                                'x'
-                                'paper'
-                                'x2' etc
-                yref : string
-                        Sets the y coordinate system
-                        which this object refers to
-                                'y'
-                                'paper'
-                                'y2' etc
+        kind : string
+            Shape kind
+                line
+                rect
+                circle
+        x : float
+            x values for the shape.
+            This assumes x0=x1
+        x0 : float
+            x0 value for the shape
+        x1 : float
+            x1 value for the shape
+        y : float
+            y values for the shape.
+            This assumes y0=y1
+        y0 : float
+            y0 value for the shape
+        y1 : float
+            y1 value for the shape
+        color : string
+            color for shape line
+        dash : string
+            line style
+                solid
+                dash
+                dashdot
+                dot
+        width : int
+            line width
+        fillcolor : string
+            shape fill color
+        fill : bool
+            If True then fill shape
+            If not fillcolor then the
+            line color will be used
+        opacity : float [0,1]
+            opacity of the fill
+        xref : string
+            Sets the x coordinate system
+            which this object refers to
+                'x'
+                'paper'
+                'x2' etc
+        yref : string
+            Sets the y coordinate system
+            which this object refers to
+                'y'
+                'paper'
+                'y2' etc
     """
     if x1 is None:
         if x0 is None:
