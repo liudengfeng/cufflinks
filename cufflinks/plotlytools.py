@@ -4,6 +4,7 @@ from collections import defaultdict
 from pathlib import Path
 
 import pandas as pd
+import plotly.offline as py_offline
 import plotly.figure_factory as ff
 from IPython.display import Image, display
 # from plotly.graph_objs import *
@@ -11,7 +12,8 @@ from plotly.graph_objs import (Bar, Box, Figure, FigureWidget, Heatmap,
                                Histogram, Layout, Pie, Scatter, Scatter3d,
                                Surface)
 
-from . import auth, offline, ta, tools
+# from . import auth, offline, ta, tools
+from . import auth, ta, tools
 from .colors import colorgen, get_colorscale, get_scales, normalize, to_rgba
 from .exceptions import CufflinksError
 from .utils import check_kwargs, deep_update, is_list, kwargs_from_keyword
@@ -215,7 +217,7 @@ def _to_iplot(self, colors=None, colorscale=None, kind='scatter',
 def _iplot(self, kind='scatter', data=None, layout=None, filename='',
            sharing=None, title='', xTitle='', yTitle='', zTitle='',
            theme=None, colors=None, colorscale=None, fill=False, width=None,
-           dash='solid', mode='', interpolation='linear', symbol='circle', size=12, barmode='', 
+           dash='solid', mode='', interpolation='linear', symbol='circle', size=12, barmode='',
            sortbars=False, bargap=None, bargroupgap=None, bins=None, histnorm='',
            histfunc='count', orientation='v', boxpoints=False,
            annotations=None, keys=False, bestfit=False,
@@ -223,8 +225,8 @@ def _iplot(self, kind='scatter', data=None, layout=None, filename='',
            categories='', x='', y='', z='', text='', gridcolor=None,
            zerolinecolor=None, margin=None, labels=None, values=None,
            secondary_y='', secondary_y_title='', subplots=False, shape=None, error_x=None,
-           error_y=None, error_type='data', locations=None, lon=None, lat=None, asFrame=False, 
-           asDates=False, asFigure=False,asImage=False, dimensions=None, 
+           error_y=None, error_type='data', locations=None, lon=None, lat=None, asFrame=False,
+           asDates=False, asFigure=False, asImage=False, dimensions=None,
            asPlot=False, asUrl=False, online=None, **kwargs):
     """
     Returns a plotly chart either as inline chart, image of Figure object
@@ -1497,14 +1499,8 @@ def iplot(figure, validate=True, sharing=None, filename='',
         auto_open = False
 
     # Exports
-    if not offline.is_offline() or online:
+    if online:
         raise NotImplementedError('不支持在线模式')
-        # try:
-        # 	# import chart_studio.plotly as py
-        # except:
-        # 	raise Exception("chart_studio is required outside of offline mode: " \
-        # 			"please run " \
-        # 			"pip install chart_studio" )
 
     def make_file(f, default_extension):
         fp = Path(f)
@@ -1544,8 +1540,8 @@ def iplot(figure, validate=True, sharing=None, filename='',
         return
 
     # iplot
-    offline.py_offline.iplot(figure, validate=validate, filename=filename,
-                             show_link=show_link, link_text=link_text, config=config)
+    py_offline.iplot(figure, validate=validate, filename=filename,
+                     show_link=show_link, link_text=link_text, config=config)
 
 
 def _ta_figure(self, **kwargs):

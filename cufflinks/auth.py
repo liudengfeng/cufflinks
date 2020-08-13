@@ -6,7 +6,7 @@ Based in Plotly's tools module
 import os
 import json
 import warnings
-from .offline import go_offline
+# from .offline import go_offline
 
 package = 'cufflinks'
 
@@ -161,9 +161,9 @@ def set_config_file(sharing=None, theme=None, colorscale=None, offline=None, off
     if offline_connected is not None:
         config['offline_connected'] = offline_connected
     if offline is not None:
-        config['offline'] = offline
-        if offline:
-            go_offline()
+        config['offline'] = True
+        # if offline:
+        #     go_offline()
     if datagen_mode:
         config['datagen_mode'] = datagen_mode
     if offline_url:
